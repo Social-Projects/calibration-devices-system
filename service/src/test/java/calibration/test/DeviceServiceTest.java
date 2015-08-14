@@ -56,9 +56,9 @@ public class DeviceServiceTest {
 
     @Test
     public void testSecondGetById() throws Exception {
-      when(deviceRepository.findOne(testId )).thenReturn(device);
+        when(deviceRepository.findOne(testId )).thenReturn(device);
         deviceService.getById(testId);
-        verify(deviceRepository.findOne(testId ));
+        //verify(deviceRepository.findOne(testId ));
         Assert.assertEquals(deviceService.getById(testId), device);
     }
 
