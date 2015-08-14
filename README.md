@@ -94,4 +94,4 @@ Check `database_script.sql` for additional information about other users such as
 ### REST API
 
 > TODO
-
+# Тут напишіть тести, які ви робили
