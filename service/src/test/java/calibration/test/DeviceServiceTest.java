@@ -59,7 +59,7 @@ public class DeviceServiceTest {
         when(deviceRepository.findOne(testId )).thenReturn(device);
         deviceService.getById(testId);
         // verify(deviceRepository.findOne(testId ));
-        Assert.assertEquals(deviceService.getById(testId), device);
+        Assert.assertEquals(device, deviceService.getById(testId));
     }
 
     @Test

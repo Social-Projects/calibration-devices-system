@@ -34,6 +34,7 @@ public class CalibrationTestServiceTest {
     private static final Long dataTestId = 1235L;
 
     private  static final Date date = new Date();
+
     @InjectMocks
     private CalibrationTestService calibrationTestService;
 
@@ -73,7 +74,7 @@ public class CalibrationTestServiceTest {
     @Test
     public void testFindTestById() throws Exception {
         when(testRepository.findOne(testId)).thenReturn(calibrationTest);
-        Assert.assertEquals(calibrationTestService.findTestById(testId),calibrationTest);
+        Assert.assertEquals(calibrationTest, calibrationTestService.findTestById(testId));
     }
 
     @Test
@@ -124,7 +125,7 @@ public class CalibrationTestServiceTest {
 
     }
 
-    @Test(expected  = NotAvailableException.class)
+    @Test(expected = NotAvailableException.class)
     public void testFindAllTestDataAsociatedWithTest() throws Exception {
         when(testRepository.findOne(testId)).thenReturn(null);
         calibrationTestService.findAllTestDataAsociatedWithTest(testId);
@@ -132,13 +133,9 @@ public class CalibrationTestServiceTest {
 
     @Test
     public void testSecondFindAllTestDataAsociatedWithTest() throws Exception {
-       // when(testRepository.findOne(testId)).thenReturn(calibrationTest);
-       // when(dataRepository.findByCalibrationTestId(testId)).thenReturn(listCalibrationTestData);
-        //when(new CalibrationTestDataList(testId, listCalibrationTestData)).thenReturn(calibrationTestDataList);
-       // CalibrationTestDataList calibrationTestDataList = spy(new CalibrationTestDataList(testId, listCalibrationTestData));
-     //   when(new CalibrationTestDataList(testId , dataRepository.findByCalibrationTestId(testId))).thenReturn(calibrationTestDataList);
-
-       // Assert.assertEquals(calibrationTestService.findAllTestDataAsociatedWithTest(testId),new CalibrationTestDataList(testId , dataRepository.findByCalibrationTestId(testId)) );
+        when(testRepository.findOne(testId)).thenReturn(calibrationTest);
+        when(dataRepository.findByCalibrationTestId(testId)).thenReturn(listCalibrationTestData);
+        Assert.assertEquals(new CalibrationTestDataList(testId, dataRepository.findByCalibrationTestId(testId)) ,calibrationTestService.findAllTestDataAsociatedWithTest(testId) );
     }
 
     @Test
