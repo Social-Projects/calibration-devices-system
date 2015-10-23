@@ -29,7 +29,7 @@ public class DeviceServiceImplTest {
 	private static final Long nullId = null;
 
 	@InjectMocks
-	private DeviceService deviceService;
+	private DeviceServiceImpl deviceService;
 
 	@Mock
 	private DeviceRepository deviceRepository;

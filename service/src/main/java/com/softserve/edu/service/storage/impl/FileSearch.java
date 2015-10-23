@@ -44,11 +44,11 @@ public class FileSearch {
             if (temp.isDirectory()) {
                 searchFile(temp);
                 continue;
-            } 
+            }
             if (getFileNameToSearch().equalsIgnoreCase(temp.getName())) {
                 result = (temp.getAbsoluteFile().toString());
             }
-         
+
         }
 
     }

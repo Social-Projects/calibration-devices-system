@@ -9,13 +9,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 /**
  * Service for adding employees for calibrator.
  */
 
 @Service
-public class CalibratorEmployeeServiceImpl implements CalibratorEmployeeService{
+public class CalibratorEmployeeServiceImpl implements CalibratorEmployeeService {
 
     @Autowired
     private UserRepository calibratorEmployeeRepository;
@@ -33,10 +32,9 @@ public class CalibratorEmployeeServiceImpl implements CalibratorEmployeeService{
     @Override
     @Transactional
     public void addEmployee(User calibratorEmployee) {
-
-        String passwordEncoded = new BCryptPasswordEncoder().encode(calibratorEmployee.getPassword());
+        String passwordEncoded = (new BCryptPasswordEncoder()).encode(calibratorEmployee.getPassword());
         calibratorEmployee.setPassword(passwordEncoded);
-//        calibratorEmployee.setRole(CALIBRATOR_EMPLOYEE);
+        // calibratorEmployee.setRole(CALIBRATOR_EMPLOYEE);
         calibratorEmployeeRepository.save(calibratorEmployee);
     }
 
@@ -45,4 +43,8 @@ public class CalibratorEmployeeServiceImpl implements CalibratorEmployeeService{
     public User oneCalibratorEmployee(String username) {
         return calibratorEmployeeRepository.findOne(username);
     }
+
+    /* public String encodeWithBCryptPasswordEncoder(String password) {
+        return (new BCryptPasswordEncoder()).encode(password);
+    } */
 }

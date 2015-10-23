@@ -1,4 +1,4 @@
-package com.softserve.edu.service;
+package com.softserve.edu.service.calibrator.data.test.impl;
 
 /**
  * Created by vova on 20.08.15.
@@ -6,7 +6,6 @@ package com.softserve.edu.service;
 
 import com.softserve.edu.entity.verification.calibration.CalibrationTestData;
 import com.softserve.edu.repository.CalibrationTestDataRepository;
-import com.softserve.edu.service.calibrator.data.test.CalibrationTestDataService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,12 +19,12 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class CalibrationTestDataServiceTestImpl {
+public class CalibrationTestDataServiceImplTest {
 
     private static final Long testId = 123L;
 
     @InjectMocks
-    private CalibrationTestDataService calibrationTestDataService;
+    private CalibrationTestDataServiceImpl calibrationTestDataService;
 
     @Mock
     private CalibrationTestDataRepository dataRepository;

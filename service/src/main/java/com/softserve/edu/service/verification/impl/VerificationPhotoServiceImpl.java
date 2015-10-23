@@ -7,6 +7,7 @@ import com.softserve.edu.service.verification.VerificationPhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.InputStream;
 import java.nio.file.FileSystems;
 

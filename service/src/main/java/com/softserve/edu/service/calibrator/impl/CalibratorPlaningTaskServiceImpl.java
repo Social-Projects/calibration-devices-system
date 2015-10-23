@@ -22,7 +22,6 @@ import java.util.Date;
 @Service
 public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskService {
 
-
     @Autowired
     private CalibrationPlanningTaskRepository taskRepository;
 
@@ -84,6 +83,4 @@ public class CalibratorPlaningTaskServiceImpl implements CalibratorPlanningTaskS
         Pageable pageRequest = new PageRequest(pageNumber - 1, itemsPerPage);
         return planningTaskRepository.findByCalibratorIdAndReadStatus(user.getOrganization().getId(), ReadStatus.READ, pageRequest);
     }
-
-
 }
