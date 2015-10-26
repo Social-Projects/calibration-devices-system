@@ -21,9 +21,9 @@ import java.util.List;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {ServiceTestingConfig.class})
 public class UserServiceTest {
-
     @Autowired
     UserService userService;
+
     /**
      * find whole users with
      * @throws Exception
@@ -47,4 +47,6 @@ public class UserServiceTest {
         Assert.assertEquals(userService.getRoles("newman").iterator().next(),
                 userRole);
     }
+
+
 }
