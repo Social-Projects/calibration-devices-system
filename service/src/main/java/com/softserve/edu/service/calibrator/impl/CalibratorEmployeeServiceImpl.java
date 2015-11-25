@@ -46,7 +46,7 @@ public class CalibratorEmployeeServiceImpl implements CalibratorEmployeeService{
     @Autowired
     private OrganizationRepository organizationRepository;
     
-    private static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
+    private SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
 
     Logger logger = Logger.getLogger(CalibratorEmployeeServiceImpl.class);
 

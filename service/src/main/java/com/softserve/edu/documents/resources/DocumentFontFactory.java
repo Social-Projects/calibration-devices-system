@@ -21,6 +21,8 @@ import java.util.EnumMap;
 public enum DocumentFontFactory {
     INSTANCE;
 
+    static Logger logger = Logger.getLogger(DocumentFontFactory.class);
+
     /**
      * Map of font objects for reuse.
      */
@@ -95,7 +97,7 @@ public enum DocumentFontFactory {
                 baseFontObject = BaseFont.createFont(path,
                         BaseFont.IDENTITY_H, false);
             } catch (DocumentException exception) {
-            	exception.printStackTrace();
+                logger.info(exception);
             }
 
             baseFontMap.put(font, baseFontObject);

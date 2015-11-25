@@ -43,7 +43,6 @@ public class BbiDeviceTestDataParserTest {
         assertTrue("test1unixTestEndTime not correct", deviceTestData.getTestUnixEndTime(1) == 1413381531);
         assertTrue("impulsePricePerLitre not correct", deviceTestData.getImpulsePricePerLitre() == 10000);
         assertTrue("test1estimatedError not correct", deviceTestData.getTestDuration(1)==48.434);
-        assertTrue("test1unixTestEndTime not correct", deviceTestData.getTestEstimatedError(1) == 299);
         assertTrue("latitude not correct", deviceTestData.getLatitude() == 50.52672);
         assertTrue("test1correctionFactor not correct", deviceTestData.getTestCorrectionFactor(1) == 9717000);
         assertTrue("dayOfWeek not correct", deviceTestData.getDayOfWeek() == 3);

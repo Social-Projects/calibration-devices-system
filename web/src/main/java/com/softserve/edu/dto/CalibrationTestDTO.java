@@ -13,7 +13,7 @@ public class CalibrationTestDTO  {
     private String id;
     private String name;
     private Date  dateTest;
-    private Integer temperature;
+    private String capacity;
     private Integer settingNumber;
     private Double latitude;
     private Double longitude;
@@ -36,13 +36,13 @@ public class CalibrationTestDTO  {
     private String documentTypeName;
     private String documentDate;
 
-    public CalibrationTestDTO(String s, Date dateTest, Integer temperature, Integer settingNumber, Double latitude, Double longitude, String consumptionStatus, Verification.CalibrationTestResult testResult, String fullName, String street, String region, String district, String locality, Long calibrationTestId, Long id, Device.DeviceType deviceType) {
+    public CalibrationTestDTO(String s, Date dateTest, String capacity, Integer settingNumber, Double latitude, Double longitude, String consumptionStatus, Verification.CalibrationTestResult testResult, String fullName, String street, String region, String district, String locality, Long calibrationTestId, Long id, Device.DeviceType deviceType) {
     }
 
-    public CalibrationTestDTO(String name, Integer temperature, Integer settingNumber, Double latitude,
+    public CalibrationTestDTO(String name, String capacity, Integer settingNumber, Double latitude,
                               Double longitude, Verification.ConsumptionStatus consumptionStatus, Verification.CalibrationTestResult testResult) {
         this.name = name;
-        this.temperature = temperature;
+        this.capacity = capacity;
         this.settingNumber = settingNumber;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -54,18 +54,18 @@ public class CalibrationTestDTO  {
         super();
         this.name = calibrationTest.getName();
         this.dateTest = calibrationTest.getDateTest();
-        this.temperature = calibrationTest.getCapacity();
+        this.capacity = calibrationTest.getCapacity();
         this.settingNumber = calibrationTest.getSettingNumber();
         this.latitude = calibrationTest.getLatitude();
         this.longitude = calibrationTest.getLongitude();
         this.consumptionStatus = calibrationTest.getConsumptionStatus();
     }
 
-    public CalibrationTestDTO(String id, String name, Date dateTest, Integer temperature, Integer settingNumber, Double latitude, Double longitude, Verification.ConsumptionStatus consumptionStatus, Verification.CalibrationTestResult testResult, String clientFullName, String street, String region, String district, String locality, Long protocolId, Long  measurementDeviceId, String measurementDeviceType, String documentTypeName/*, String documentDate*/) {
+    public CalibrationTestDTO(String id, String name, Date dateTest, String capacity, Integer settingNumber, Double latitude, Double longitude, Verification.ConsumptionStatus consumptionStatus, Verification.CalibrationTestResult testResult, String clientFullName, String street, String region, String district, String locality, Long protocolId, Long  measurementDeviceId, String measurementDeviceType, String documentTypeName/*, String documentDate*/) {
         this.id = id;
         this.name = name;
         this.dateTest = dateTest;
-        this.temperature = temperature;
+        this.capacity = capacity;
         this.settingNumber = settingNumber;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -99,12 +99,12 @@ public class CalibrationTestDTO  {
         this.dateTest = new Date();
     }
 
-    public Integer getTemperature() {
-        return temperature;
+    public String getCapacity() {
+        return capacity;
     }
 
-    public void setTemperature(Integer temperature) {
-        this.temperature = temperature;
+    public void setTemperature(String capacity) {
+        this.capacity = capacity;
     }
 
     public Integer getSettingNumber() {
@@ -247,7 +247,7 @@ public class CalibrationTestDTO  {
         CalibrationTest calibrationTest = new CalibrationTest();
         calibrationTest.setName(name);
         calibrationTest.setDateTest(new Date());
-        calibrationTest.setCapacity(temperature);
+        calibrationTest.setCapacity(capacity);
         calibrationTest.setSettingNumber(settingNumber);
         calibrationTest.setLatitude(latitude);
         calibrationTest.setLongitude(longitude);

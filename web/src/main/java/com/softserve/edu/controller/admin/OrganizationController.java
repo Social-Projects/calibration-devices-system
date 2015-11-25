@@ -12,6 +12,7 @@ import com.softserve.edu.dto.LocalityDTO;
 import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.enumeration.user.UserRole;
+import com.softserve.edu.entity.organization.AdditionInfoOrganization;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.organization.OrganizationEditHistory;
 import com.softserve.edu.entity.user.User;
@@ -73,6 +74,18 @@ public class OrganizationController {
                 organizationDTO.getStreet(),
                 organizationDTO.getBuilding(),
                 organizationDTO.getFlat());
+        Address addressRegistered = new Address(
+                organizationDTO.getRegionRegistered(),
+                organizationDTO.getDistrictRegistered(),
+                organizationDTO.getLocalityRegistered(),
+                organizationDTO.getStreetRegistered(),
+                organizationDTO.getBuildingRegistered(),
+                organizationDTO.getFlatRegistered());
+        AdditionInfoOrganization additionInfoOrganization = new AdditionInfoOrganization(
+                organizationDTO.getCodeEDRPOU(),
+                organizationDTO.getSubordination(),
+                organizationDTO.getCertificateNumrAuthoriz(),
+                organizationDTO.getCertificateDate());
         try {
             String adminName = user.getUsername();
             organizationService.addOrganizationWithAdmin(
@@ -88,6 +101,8 @@ public class OrganizationController {
                     organizationDTO.getMiddleName(),
                     organizationDTO.getUsername(),
                     address,
+                    addressRegistered,
+                    additionInfoOrganization,
                     adminName,
                     organizationDTO.getServiceAreas()
             );

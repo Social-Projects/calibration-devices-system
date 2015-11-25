@@ -101,6 +101,9 @@ public class Verification {
     @Column(columnDefinition = "boolean default false")
     private boolean counterStatus;
 
+    @Column(columnDefinition = "boolean default true")
+    private boolean sealPresence;
+
     @OneToOne(mappedBy = "verification", cascade = CascadeType.ALL)
     private AdditionalInfo info;
 
@@ -145,7 +148,8 @@ public class Verification {
 
     public enum CalibrationTestResult {
         SUCCESS,
-        FAILED
+        FAILED,
+        RAW
     }
 
     public enum ConsumptionStatus {

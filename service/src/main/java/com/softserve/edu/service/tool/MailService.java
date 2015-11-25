@@ -24,4 +24,6 @@ public interface MailService {
     void sendTimeExceededMail(String verificationId, int processTimeExceeding, int maxProcessTime, String mailTo);
 
     void sendOrganizationChanges(Organization organization, User admin);
+
+    void sendPassedTestMail(String to, String verificationId, String status);
 }

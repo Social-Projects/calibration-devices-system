@@ -45,35 +45,40 @@
                                             translate}}</b>
                                         </div>
                                     </td>
-                                    <td data-title="'VERIFICATION_ID' | translate"
-                                        filter="{ 'id': 'text' }" ng-model="filters.id">{{ verification.verficationId }}
-                                    </td>
-                                    <td data-title="'PROVIDER_NAME' | translate"
-                                        filter="{ 'provider': 'text' }" ng-model="filters.id">{{ verification.providerName }}
-                                    </td>
-                                    <td data-title="'CLIENT_FULL_NAME' | translate"
+                                    <td data-title="'CLIENT_FULL_NAME' | translate" sortable="'client_last_name'"
                                         filter="{ 'client_full_name': 'text' }">{{ verification.clientFullName }}
                                     </td>
-                                    <td data-title="'CLIENT_ADDRESS' | translate"
-                                        filter="{ 'address': 'text' }">{{ verification.address }}
+                                    <td data-title="'PROVIDER_NAME' | translate" sortable="'providerName'"
+                                        filter="{ 'provider': 'text' }" ng-model="filters.id">{{ verification.providerName }}
                                     </td>
-                                    <td data-title="'COUNTER_STATUS' | translate"
-                                        filter="{ 'counter_status': 'text' }">{{ verification.counterStatus }}
+                                    <td data-title="'DISTRICT' | translate" sortable="'district'" sortable="'district'"
+                                        filter="{ 'district': 'text' }">{{ verification.district}}
                                     </td>
-                                    <td data-title="'MEASUREMENT_DEVICE_TYPE' | translate"
-                                        filter="{ 'deviceType': 'text' }">{{ verification.deviceType }}
+                                    <td data-title="'STREET' | translate" sortable="'street'" sortable="'street'"
+                                        filter="{ 'street': 'text' }">{{ verification.street }}
+                                    </td>
+                                    <td data-title="'BUILDING,FLAT' | translate"
+                                        filter="{ 'building': 'text' }">{{ verification.building_flat }}
+                                    </td>
+                                    <td data-title="'DESIRED_VERIFICATION_BY_DATE' | translate" sortable="'dateOfVerif'"
+                                        filter="{ 'dateOfVerif': 'text' }">{{ verification.dateOfVerif }}
+                                    </td>
+                                    <td data-title="'DESIRED_VERIFICATION_BY_TIME' | translate"
+                                        filter="{ 'time': 'text' }">{{ verification.time }}
+                                    </td>
+                                    <td data-title="'PLUMBING_SERVICEABILITY' | translate"
+                                        filter="{ 'serviceability': 'text' }">{{ verification.serviceability  | translate}}
+                                    </td>
+                                    <td data-title="'NO_WATER_TO' | translate"
+                                        filter="{ 'noWaterToDate': 'text' }">{{ verification.noWaterToDate }}
+                                    </td>
+                                    <td data-title="'PRESENCE_OF_SEAL' | translate"
+                                        filter="{ 'sealPresence': 'text' }">{{ verification.sealPresence  | translate}}
                                     </td>
                                     <td data-title="'TELEPHONE' | translate"
-                                        filter="{ 'telephone': 'text' }">{{ verification.telephone }}
+                                        filter="{ 'telephone': 'text' }">{{ verification.phone }}
                                     </td>
-                                    <td data-title="'ACTIONS' | translate" style="width: 15%">
-                                        <div style="width: auto; text-align: center;">
-                                           <span style="color: #1a531b" popover="Iнформація про лічильник"
-                                                  popover-trigger="mouseenter"
-                                                  ng-click="openCounterInfoModal(verification.verficationId)">
-                                                <i class="fa fa-info-circle"></i>
-                                           </span>
-                                        </div>
+
                                 </tr>
                                 </tbody>
 

@@ -58,7 +58,7 @@ public class ProviderEmployeeServiceImpl implements ProviderEmployeeService {
     @PersistenceContext
     private EntityManager em;
 
-    private static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
+    private SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
 
     Logger logger = Logger.getLogger(ProviderEmployeeServiceImpl.class);
 

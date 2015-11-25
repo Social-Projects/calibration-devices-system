@@ -26,7 +26,7 @@ public interface DeviceTestData {
     double getLatitude();
     double getLongitude();
     long getImpulsePricePerLitre();
-    int getInitialCapacity();
+    String getInitialCapacity();
     String getCounterType1();
     long getTestimony();
     int getCounterProductionYear();
@@ -41,7 +41,7 @@ public interface DeviceTestData {
     double getTestCorrectedCurrentConsumption(int testIndex);
     double getTestCumulativeImpulsesValueWithoutCorrection(int testIndex);
     double getTestCurrentConsumptionWithoutCorrection(int testIndex);
-    long getTestEstimatedError(int testIndex);
+    double getTestEstimatedError(int testIndex);
     double getTestInitialCounterValue(int testIndex);
     double getTestTerminalCounterValue(int testIndex);
     long getTestUnixBeginTime(int testIndex);

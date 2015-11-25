@@ -22,9 +22,9 @@ public class CalibrationTestFileDataDTO {
 
     private Date testDate;
 
-    private int temperature;
+    private String capacity;
 
-    private long accumulatedVolume;
+    private String accumulatedVolume;
 
     private int counterProductionYear;
 
@@ -44,15 +44,17 @@ public class CalibrationTestFileDataDTO {
 
     private String status;
 
+    private Integer testPosition;
+
 
     public CalibrationTestFileDataDTO() {
     }
 
-    public CalibrationTestFileDataDTO(String fileName, Date data, int temperature, long installmentNumber,
+    public CalibrationTestFileDataDTO(String fileName, Date data, String capacity, long installmentNumber,
                                       double latitude, double longitude, String testPhoto) {
         this.fileName = fileName;
         this.testDate = data;
-        this.temperature = temperature;
+        this.capacity = capacity;
         this.installmentNumber = installmentNumber;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -65,7 +67,7 @@ public class CalibrationTestFileDataDTO {
         this.fileName = testData.getFileName();
         this.counterNumber = testData.getCurrentCounterNumber();
         this.testDate = new Date(testData.getUnixTime());
-        this.temperature = testData.getTemperature();
+        this.capacity = testData.getInitialCapacity();
         //this.accumulatedVolume = ; // don't have this value.
         this.counterProductionYear = testData.getCounterProductionYear();
         this.installmentNumber = testData.getInstallmentNumber();
@@ -100,7 +102,7 @@ public class CalibrationTestFileDataDTO {
             testDataDTO.setActualConsumption(convertImpulsesPerSecToCubicMetersPerHour(
                     testData.getTestCorrectedCurrentConsumption(i),
                     testData.getImpulsePricePerLitre()));
-            testDataDTO.setCalculationError(countCalculationError(testDataDTO.getVolumeInDevice(),
+           testDataDTO.setCalculationError(countCalculationError(testDataDTO.getVolumeInDevice(),
                     testDataDTO.getVolumeOfStandard()));
             testDataDTO.setBeginPhoto(testData.getBeginPhoto(i));
             testDataDTO.setEndPhoto(testData.getEndPhoto(i));
@@ -113,13 +115,13 @@ public class CalibrationTestFileDataDTO {
         this.fileName = calibrationTest.getName();
         this.counterNumber = calibrationTest.getCounterNumber().toString();
         this.testDate = calibrationTest.getDateTest();
-        this.temperature = calibrationTest.getCapacity();
-//       this.accumulatedVolume = ; // don't have this value.
-//       this.counterProductionYear = testData.getCounterProductionYear(); //?
+//      this.capacity = calibrationTest.getCapacity();
+       this.accumulatedVolume = calibrationTest.getCapacity();
+//      this.counterProductionYear = testData.getCounterProductionYear();
         this.installmentNumber = calibrationTest.getSettingNumber();
         this.latitude = calibrationTest.getLatitude();
         this.longitude = calibrationTest.getLongitude();
-        this.testPhoto = calibrationTestService.getPhotoAsString(calibrationTest.getPhotoPath());
+        this.testPhoto = calibrationTestService.getPhotoAsString(calibrationTest.getPhotoPath(),calibrationTest);
         this.consumptionStatus = calibrationTest.getConsumptionStatus();
         this.testResult = calibrationTest.getTestResult();
         this.listTestData = new ArrayList();
@@ -127,7 +129,7 @@ public class CalibrationTestFileDataDTO {
         List<CalibrationTestIMG> calibrationTestIMGList;
         CalibrationTestIMG calibrationTestIMG;
         this.status = calibrationTest.getVerification().getStatus().toString();
-        for (CalibrationTestData calibrationTestData : calibrationTest.getCalibrationTestDataList()) {
+        for (CalibrationTestData calibrationTestData : calibrationTestService.getLatestTests(calibrationTest.getCalibrationTestDataList())) {
             CalibrationTestDataDTO testDataDTO = new CalibrationTestDataDTO();
             testDataDTO.setDataAvailable(true);
             testDataDTO.setTestNumber("Test" + testNumber);
@@ -136,7 +138,6 @@ public class CalibrationTestFileDataDTO {
             testDataDTO.setInitialValue(calibrationTestData.getInitialValue());
             testDataDTO.setEndValue(calibrationTestData.getEndValue());
             testDataDTO.setVolumeInDevice(calibrationTestData.getVolumeInDevice());
-//            testDataDTO.setTestTime(round(testData.getTestDuration(i), 1))?
             testDataDTO.setVolumeOfStandard(calibrationTestData.getVolumeOfStandard());
             testDataDTO.setActualConsumption(calibrationTestData.getActualConsumption());
             testDataDTO.setCalculationError(calibrationTestData.getCalculationError());
@@ -144,15 +145,21 @@ public class CalibrationTestFileDataDTO {
             for (int orderPhoto = 0; orderPhoto < calibrationTestIMGList.size(); orderPhoto++) {
                 calibrationTestIMG = calibrationTestIMGList.get(orderPhoto);
                 if (orderPhoto == 0) {
-                    testDataDTO.setBeginPhoto(calibrationTestService.getPhotoAsString(calibrationTestIMG.getImgName()));
+                    testDataDTO.setBeginPhoto(calibrationTestService.getPhotoAsString(calibrationTestIMG.getImgName(),calibrationTest));
                 } else {
-                    testDataDTO.setEndPhoto(calibrationTestService.getPhotoAsString(calibrationTestIMG.getImgName()));
+                    testDataDTO.setEndPhoto(calibrationTestService.getPhotoAsString(calibrationTestIMG.getImgName(),calibrationTest));
                 }
             }
+            testDataDTO.setTestPosition(calibrationTestData.getTestPosition());
+            testDataDTO.setTestTime(round(calibrationTestData.getDuration(),1));
+            testDataDTO.setTestResult(calibrationTestData.getTestResult());
+            testDataDTO.setConsumptionStatus(calibrationTestData.getConsumptionStatus());
             listTestData.add(testDataDTO);
             testNumber++;
         }
     }
+
+
 
     public String getStatus() {
         return status;
@@ -186,12 +193,12 @@ public class CalibrationTestFileDataDTO {
         this.testDate = testDate;
     }
 
-    public int getTemperature() {
-        return temperature;
+    public String getCapacity() {
+        return capacity;
     }
 
     public void setTemperature(int temperature) {
-        this.temperature = temperature;
+        this.capacity = capacity;
     }
 
     public int getCounterProductionYear() {
@@ -202,11 +209,11 @@ public class CalibrationTestFileDataDTO {
         this.counterProductionYear = counterProductionYear;
     }
 
-    public long getAccumulatedVolume() {
+    public String getAccumulatedVolume() {
         return accumulatedVolume;
     }
 
-    public void setAccumulatedVolume(long accumulatedVolume) {
+    public void setAccumulatedVolume(String accumulatedVolume) {
         this.accumulatedVolume = accumulatedVolume;
     }
 
@@ -267,7 +274,7 @@ public class CalibrationTestFileDataDTO {
     }
 
     private double round(double val, int scale) {
-        return new BigDecimal(val).setScale(scale, RoundingMode.HALF_UP).doubleValue();
+        return BigDecimal.valueOf(val).setScale(scale, RoundingMode.HALF_UP).doubleValue();
     }
 
     private double convertImpulsesPerSecToCubicMetersPerHour(double impulses, long impLitPrice) {
@@ -280,5 +287,13 @@ public class CalibrationTestFileDataDTO {
         }
         double result = (counterVolume - standardVolume) / standardVolume * 100;
         return round(result, 2);
+    }
+
+    public Integer getTestPosition() {
+        return testPosition;
+    }
+
+    public void setTestPosition(Integer testPosition) {
+        this.testPosition = testPosition;
     }
 }

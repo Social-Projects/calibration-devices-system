@@ -3,6 +3,7 @@ package com.softserve.edu.service.admin;
 import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.enumeration.organization.OrganizationType;
+import com.softserve.edu.entity.organization.AdditionInfoOrganization;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.organization.OrganizationEditHistory;
 import com.softserve.edu.entity.user.User;
@@ -19,7 +20,8 @@ public interface OrganizationService {
 
     void addOrganizationWithAdmin(String name, String email, String phone, List<String> types, List<String> counters, Integer employeesCapacity,
                                   Integer maxProcessTime, String firstName, String lastName, String middleName,
-                                  String username, Address address, String adminName, Long[] localityIdList)  throws UnsupportedEncodingException, MessagingException;
+                                  String username, Address address, Address addressRegistered,AdditionInfoOrganization additionInfoOrganization,
+                                  String adminName, Long[] localityIdList)  throws UnsupportedEncodingException, MessagingException;
 
     ListToPageTransformer<Organization> getOrganizationsBySearchAndPagination(int pageNumber, int itemsPerPage, String name,
                                                                               String email, String number, String type, String region,

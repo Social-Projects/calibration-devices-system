@@ -55,6 +55,30 @@ angular
                 },
             ];
 
+            $scope.organizationFormData = {};
+
+            $scope.calendar = {};
+            $scope.calendar.isOpen = false;
+
+            $scope.open = function($event) {
+                $event.preventDefault();
+                $event.stopPropagation();
+                $scope.calendar.isOpen = true;
+            };
+
+            $scope.minDate = null;
+            $scope.maxDate = new Date(2100, 5, 22);
+
+            $scope.dateOptions = {
+                formatYear: 'yyyy',
+                startingDay: 1,
+                showWeeks: 'false'
+            };
+
+            $scope.clearDate = function() {
+                $scope.organizationFormData.certificateDate = null;
+            };
+
             /**
              * Localization of multiselect for type of organization and device types
              */
@@ -98,6 +122,19 @@ angular
                 $scope.organizationFormData.street = "";
                 $scope.organizationFormData.building = "";
                 $scope.organizationFormData.flat = null;
+
+                $scope.organizationFormData.codeEDRPOU = undefined;
+                $scope.organizationFormData.subordination = undefined;
+                $scope.organizationFormData.certificateNumrAuthoriz = undefined;
+                $scope.organizationFormData.certificateDate = undefined;
+
+                $scope.organizationFormData.regionRegistered = undefined;
+                $scope.organizationFormData.districtRegistered = undefined;
+                $scope.organizationFormData.localityRegistered = undefined;
+                $scope.organizationFormData.streetRegistered = undefined;
+                $scope.organizationFormData.buildingRegistered = undefined;
+                $scope.organizationFormData.flatRegistered = undefined;
+
                 $scope.selectedServiceAreaLocalities = [];
                 $scope.serviceArea.locality = [[]];
                 $scope.serviceArea.districts = [];
@@ -162,7 +199,6 @@ angular
             $scope.streets = "";
             $scope.buildings = null;
 
-
             /**
              * Receives all possible districts.
              * On-select handler in region input form element.
@@ -217,6 +253,65 @@ angular
                 }
             };
 
+            $scope.regionsReg = regions;
+            $scope.districtsReg = undefined;
+            $scope.localitiesReg = undefined;
+            $scope.streetsReg = undefined;
+            $scope.buildingsReg = undefined;
+
+            /**
+             * Receives all possible districts.
+             * On-select handler in regionReg input form element for RegisteredAddress.
+             */
+            $scope.receiveDistrictsRegistered = function (selectedRegionReg) {
+                if (!$scope.blockSearchFunctions) {
+                    $scope.districtsReg = [];
+                    addressService.findDistrictsByRegionId(selectedRegionReg.id)
+                        .then(function (districtsReg) {
+                            $scope.districtsReg = districtsReg;
+                            $scope.organizationFormData.districtRegistered = undefined;
+                            $scope.organizationFormData.localityRegistered = undefined;
+                            $scope.organizationFormData.streetRegistered = undefined;
+                        });
+                }
+            };
+
+            /**
+             * Receives all possible localities.
+             * On-select handler in districtReg input form element for RegisteredAddress.
+             */
+            $scope.receiveLocalitiesRegistered = function (selectedDistrictReg) {
+                if (!$scope.blockSearchFunctions) {
+                    $scope.localitiesReg = [];
+                    addressService.findLocalitiesByDistrictId(selectedDistrictReg.id)
+                        .then(function (localitiesReg) {
+                            $scope.localitiesReg = localitiesReg;
+                            $scope.organizationFormData.localityRegistered = undefined;
+                            $scope.organizationFormData.streetRegistered = undefined;
+
+                        });
+                }
+            };
+
+            /**
+             * Receives all possible streets.
+             * On-select handler in localityReg input form element for RegisteredAddress
+             */
+            $scope.receiveStreetsRegistered = function (selectedLocalityReg) {
+                if (!$scope.blockSearchFunctions) {
+                    $scope.streetsReg = [];
+                    addressService.findStreetsByLocalityId(selectedLocalityReg.id)
+                        .then(function (streetsReg) {
+                            $scope.streetsReg = streetsReg;
+                            $scope.organizationFormData.streetRegistered = undefined;
+                            $scope.organizationFormData.buildingRegistered = undefined;
+                            $scope.organizationFormData.flatRegistered = undefined;
+                        }
+                    );
+                }
+            };
+
+
             $scope.serviceArea = {};
             $scope.serviceArea.region = undefined;
             $scope.serviceArea.districts = [];
@@ -225,7 +320,7 @@ angular
 
             /**
              * Receives all possible Districts for service area
-             * On-select handler in region input form element.
+             * On-select handler in serviceArea.region input form element.
              */
             $scope.receiveDistrictsForServiceArea = function (selectedRegion) {
                 if (!$scope.blockSearchFunctions) {
@@ -321,6 +416,23 @@ angular
                 $scope.organizationFormData.building = $scope.organizationFormData.building;
                 $scope.organizationFormData.flat = $scope.organizationFormData.flat;
                 $scope.organizationFormData.serviceAreas = $scope.selectedServiceAreaLocalities;
+
+                if($scope.organizationFormData.regionRegistered !== undefined) {
+                    $scope.organizationFormData.regionRegistered = $scope.organizationFormData.regionRegistered.designation;
+                }
+                if($scope.organizationFormData.districtRegistered !== undefined) {
+                    $scope.organizationFormData.districtRegistered = $scope.organizationFormData.districtRegistered.designation;
+                }
+                if($scope.organizationFormData.localityRegistered !== undefined) {
+                    $scope.organizationFormData.localityRegistered = $scope.organizationFormData.localityRegistered.designation;
+                }
+                if($scope.organizationFormData.streetRegistered !== undefined) {
+                    $scope.organizationFormData.streetRegistered = $scope.organizationFormData.streetRegistered.designation;
+                }
+            }
+
+            function dateToLong() {
+                $scope.organizationFormData.certificateDate = (new Date($scope.organizationFormData.certificateDate)).getTime();
             }
 
             function objectTypesToStringTypes() {
@@ -350,6 +462,7 @@ angular
                 $scope.$broadcast('show-errors-check-validity');
                 if ($scope.organizationForm.$valid) {
                     addressFormToOrganizationForm();
+                    dateToLong();
                     objectTypesToStringTypes();
                     saveOrganization();
                 }

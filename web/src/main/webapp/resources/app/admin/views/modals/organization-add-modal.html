@@ -209,6 +209,80 @@
             </div>
         </div>
 
+        <hr/>
+
+        <div class="panel panel-primary">
+            <div class="panel-heading"> <!--ng-model="checkedInfo"-->
+                {{'ADDITIONAL_INFORMATION' | translate }}
+            </div>
+            <div class="panel-body" > <!--ng-show="checkedInfo" -->
+                <div class="form-group row" show-errors>
+                    <label class="control-label col-md-4" for="codeEDRPOU">
+                        {{'INSTALL_CODE' | translate }}
+                    </label>
+                    <div class="col-md-8">
+                        <input id="codeEDRPOU" name="codeEDRPOU" class="form-control"
+                                type="text" ng-model="organizationFormData.codeEDRPOU">
+                        <span class="form-control-feedback glyphicon
+						 	form-horizontal glyphicon glyphicon-ok-sign"></span>
+                    </div>
+                </div>
+                <div class="form-group row" show-errors>
+                    <label class="control-label col-md-4" for="subordination">
+                        {{'SUBORDINATION' | translate}}
+                    </label>
+                    <div class="col-md-8">
+                        <input id="subordination" name="subordination" class="form-control"
+                                type="text" ng-model="organizationFormData.subordination" >
+                        <span class="form-control-feedback glyphicon
+						 	form-horizontal glyphicon glyphicon-ok-sign"></span>
+                    </div>
+                </div>
+                <div class="form-group row" show-errors>
+                    <label class="control-label col-md-4" for="certificateNumrAuthoriz">
+                        {{'CERTIFICATE_NUMBER' | translate}}
+                    </label>
+                    <div class="col-md-8">
+                        <input id="certificateNumrAuthoriz" name="certificateNumrAuthoriz" class="form-control"
+                                type="text" ng-model="organizationFormData.certificateNumrAuthoriz">
+                        <span class="form-control-feedback glyphicon
+						 	form-horizontal glyphicon glyphicon-ok-sign"></span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="control-label col-md-4" for="certificateDate">
+                        {{'CERTIFICATE_DATE' | translate}}
+                    </label>
+                    <div class="col-md-8">
+                        <div class="input-group right-inner-addon">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default myGroupBtn" ng-click="open($event)">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </button>
+                            </span>
+                            <input type="text" class="form-control date-picker" datepicker-popup id="certificateDate"
+                                    ng-model="organizationFormData.certificateDate"
+                                    is-open="calendar.isOpen"
+                                    min-date="minDate" max-date="maxDate"
+                                    datepicker-options="dateOptions"
+                                    date-disabled="disabled(date, mode)" close-text="Close"
+                                    ng-change="receiveModuleNumbers()" readonly>
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default myGroupBtn"
+                                        ng-show="!isDateDefault"
+                                        ng-click="clearDate()">
+                                    <i class="glyphicon glyphicon-remove"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+
 
         <hr/>
         <div class="panel panel-primary">
@@ -344,7 +418,6 @@
         </div>
 
         <hr/>
-
 
         <div class="panel panel-primary">
             <div class="panel-heading">
@@ -514,6 +587,122 @@
             </div>
         </div>
 
+        <hr/>
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                {{'REGISTERED_ADDRESS' | translate }}
+            </div>
+            <div class="panel-body">
+                <div class="form-group row">
+                    <label class="control-label col-md-4" for="regionRegistered">
+                        {{'REGION' | translate}}
+                    </label>
+                    <div class="col-md-8">
+                        <ui-select class="form-control" type="text" theme="select2"
+                                   ng-model="organizationFormData.regionRegistered"
+                                   on-select="receiveDistrictsRegistered(organizationFormData.regionRegistered)"
+                                   name="regionRegistered" id="regionRegistered">
+                            <ui-select-match placeholder="{{'SELECT_REGION' | translate}}" allow-clear="true">
+                                {{$select.selected.designation}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="regionRegistered in regionsReg | filter: $select.search">
+                                <span ng-bind-html="regionRegistered.designation"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="control-label col-md-4" for="districtRegistered">
+                        {{'DISTRICT' | translate}}
+                    </label>
+                    <div class="col-md-8">
+                        <ui-select class="form-control" type="text" theme="select2"
+                                   ng-model="organizationFormData.districtRegistered"
+                                   on-select="receiveLocalitiesRegistered(organizationFormData.districtRegistered)"
+                                   name="districtRegistered" id="districtRegistered"
+                                   ng-disabled="!organizationFormData.regionRegistered">
+                            <ui-select-match placeholder="{{'SELECT_DISTRICT' | translate}}" allow-clear="true">
+                                {{$select.selected.designation}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="districtRegistered in districtsReg | filter: $select.search">
+                                <span ng-bind-html="districtRegistered.designation"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="control-label col-md-4" for="localityRegistered">
+                        {{'LOCALITY' | translate}}
+                    </label>
+                    <div class="col-md-8">
+                        <ui-select class="form-control" type="text" theme="select2"
+                                   ng-model="organizationFormData.localityRegistered"
+                                   on-select="receiveStreetsRegistered(organizationFormData.localityRegistered,
+                                                                        organizationFormData.districtRegistered)"
+                                   name="localityRegistered" id="localityRegistered"
+                                   ng-disabled="!organizationFormData.districtRegistered">
+                            <ui-select-match placeholder="{{'SELECT_LOCALITY' | translate}}" allow-clear="true">
+                                {{$select.selected.designation}}
+                            </ui-select-match>
+                            <ui-select-choices repeat="localityRegistered in localitiesReg | filter: $select.search | unique:'designation'">
+                                <span ng-bind-html="localityRegistered.designation"></span>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+                <div class="form-group row" show-errors>
+                    <label class="control-label col-md-4" for="streetRegistered">
+                        {{'STREET_TWO' | translate}}
+                    </label>
+                    <div class="col-md-8">
+                        <input name="streetRegistered" class="form-control"
+                               type="text" id="streetRegistered"
+                               ng-model="organizationFormData.streetRegistered"
+                               ng-disabled="!organizationFormData.localityRegistered"
+                               typeahead="streetRegistered as streetRegistered.designation for streetRegistered in streetsReg | filter: $viewValue | limitTo: 4"
+                               typeahead-editable="false"
+                               popover="{{'ENTER_STREET' | translate}}"
+                               popover-trigger="focus" popover-placement="top">
+                                    <span class="form-control-feedback glyphicon
+							            form-horizontal glyphicon glyphicon-ok-sign"></span>
+                    </div>
+                </div>
+                <div class="form-group row" show-errors>
+                    <label class="control-label col-md-4" for="buildingRegistered">
+                        {{'HOUSE_TWO' | translate}}
+                    </label>
+                    <div class="col-md-8">
+                        <input name="buildingRegistered" id="buildingRegistered" type="text"
+                               ng-model="organizationFormData.buildingRegistered"
+                               ng-disabled="!organizationFormData.streetRegistered"
+                               typeahead="buildingRegistered as buildingRegistered.designation for buildingRegistered in buildingsReg | filter: $viewValue"
+                               class="form-control" popover="{{'ENTER_BUILDING' | translate}}"
+                               popover-trigger="focus" popover-placement="top">
+                        <span class="form-control-feedback glyphicon
+								form-horizontal glyphicon glyphicon-ok-sign"></span>
+                    </div>
+                </div>
+                <div class="form-group row" show-errors>
+                    <label class="control-label col-md-4" for="flatRegistered">
+                        {{'FLAT' | translate}}
+                    </label>
+                    <div class="col-md-8">
+                        <input name="flatRegistered" id="flatRegistered" type="text"
+                               ng-model="organizationFormData.flatRegistered" class="form-control"
+                               ng-disabled="!organizationFormData.buildingRegistered"
+                               popover="{{'ENTER_FLAT' | translate}}"
+                               popover-trigger="focus" popover-placement="top">
+                        <span class="form-control-feedback glyphicon
+								form-horizontal glyphicon glyphicon-ok-sign"></span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <hr/>
+
         <div class="panel panel-primary">
             <div class="panel-heading">{{'ORGANIZATION_SERVICE_AREA'|translate}}</div>
             <div class="panel-body">
@@ -591,7 +780,7 @@
                 </p>
             </div>
             <input type="button" class="btn btn-danger col-md-2 col-sm-12 col-xs-12 col-lg-2 pull-right"
-                   value="{{'CLOSE' | translate}}" ng-click="closeModal()">
+                   value="{{'CLOSE' | translate}}" ng-click="closeModal()"/>
         </div>
 
     </form>

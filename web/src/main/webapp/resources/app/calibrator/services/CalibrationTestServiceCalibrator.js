@@ -20,13 +20,22 @@ angular
                     });
             },
 
-            updateCalibrationTest: function (formData, testId) {
-                return $http.post("calibrator/calibrationTests/add/" + testId, formData)
+            /*updateCalibrationTest: function (formData, testId) {
+                return $http.post("calibrator/calibrationTests/updateProtocol/" + testId, formData)
+                    .then(function (result) {
+                        console.log("###############: "+result.status );
+                        return result.status;
+                    });
+            },**/
+
+            updateCalibrationTest: function (data,testId) {
+                return $http.post("calibrator/calibrationTests/updateProtocol/" + testId, data)
                     .then(function (result) {
                         console.log("###############: "+result.status );
                         return result.status;
                     });
             },
+
             saveCalibrationTestData: function  (formdata, testId) {
               return $http.post("calibrator/calibrationTestData/addTestData/" + testId, formdata)
                   .then(function(result) {
@@ -48,7 +57,7 @@ angular
                     });
             },
             getTestProtocol: function (verificationId) {
-                var url = 'calibrator/calibrationTests/createEmptyTest/' + verificationId;
+                var url = 'calibrator/calibrationTests/getProtocol/' + verificationId;
                 return $http.get(url)
                     .then(function (result) {
                         return result.data;

@@ -20,11 +20,13 @@ public class GraphicBuilderMainPanel {
 
         List<MonthOfYear> months = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
-        for (Date date = start.getTime(); start.before(end) || start.equals(end);
-             start.add(Calendar.MONTH, 1), date = start.getTime()) {
+        Date date = start.getTime();
+        while(start.before(end) || start.equals(end)) {
             calendar.setTime(date);
             MonthOfYear item = new MonthOfYear(calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR));
             months.add(item);
+            start.add(Calendar.MONTH, 1);
+            date = start.getTime();
         }
         return months;
     }

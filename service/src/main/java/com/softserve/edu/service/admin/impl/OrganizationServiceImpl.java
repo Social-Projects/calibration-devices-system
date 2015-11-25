@@ -4,6 +4,7 @@ import com.softserve.edu.entity.Address;
 import com.softserve.edu.entity.catalogue.Locality;
 import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.enumeration.organization.OrganizationType;
+import com.softserve.edu.entity.organization.AdditionInfoOrganization;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.organization.OrganizationEditHistory;
 import com.softserve.edu.entity.user.User;
@@ -63,10 +64,12 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Transactional
     public void addOrganizationWithAdmin(String name, String email, String phone, List<String> types, List<String> counters,
                                          Integer employeesCapacity, Integer maxProcessTime, String firstName, String lastName,
-                                         String middleName, String username, Address address, String adminName,
+                                         String middleName, String username, Address address, Address addressRegistered,
+                                         AdditionInfoOrganization additionInfoOrganization, String adminName,
                                          Long[] localityIdList) throws UnsupportedEncodingException, MessagingException {
 
-        Organization organization = new Organization(name, email, phone, employeesCapacity, maxProcessTime, address);
+        Organization organization = new Organization(name, email, phone, employeesCapacity, maxProcessTime, address,
+                addressRegistered, additionInfoOrganization);
         String password = RandomStringUtils.randomAlphanumeric(firstName.length());
         String passwordEncoded = new BCryptPasswordEncoder().encode(password);
         User employeeAdmin = new User(firstName, lastName, middleName, username, passwordEncoded, organization);

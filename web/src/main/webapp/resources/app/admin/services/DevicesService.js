@@ -25,13 +25,14 @@ angular
                         return result.status;
                     });
             },
-            deleteDeviceCategory: function (id) {
+           deleteDeviceCategory: function (id) {
                 var url = 'admin/device-category/delete/' + id;
                 return $http.delete(url)
                     .then(function (result) {
                         return result.status;
                     });
             }
+
         };
 
         function getDataWithParams(url, params) {

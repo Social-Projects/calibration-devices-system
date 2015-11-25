@@ -199,6 +199,32 @@ public class MailServiceImpl implements MailService {
         mailSender.send(preparator);
     }
 
+    /**
+     * Notifies (sends mail to) customer about changed status of  the verification
+     */
+    public void sendPassedTestMail(String to, String verificationId, String status) {
+        MimeMessagePreparator preparator = new MimeMessagePreparator() {
+            public void prepare(MimeMessage mimeMessage) throws Exception {
+                MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
+                message.setTo(to);
+                message.setFrom(new InternetAddress("metrology.calibrations@gmail.com", "Calibration devices system"));
+                String domain = null;
+                try {
+                    domain = InetAddress.getLocalHost().getHostAddress();
+                } catch (UnknownHostException ue) {
+                    logger.error("Cannot get host address", ue);
+                }
+                Map<String, Object> templateVariables = new HashMap<>();
+                templateVariables.put("verificationId", verificationId);
+                templateVariables.put("status", status);
+                String body = mergeTemplateIntoString(velocityEngine, "/velocity/templates" + "/changedStatus.vm", "UTF-8", templateVariables);
+                message.setText(body, true);
+                message.setSubject("Important notification");
+            }
+        };
+        mailSender.send(preparator);
+    }
+
 
     /**
      * Send email from client (for example to SYS_ADMIN)

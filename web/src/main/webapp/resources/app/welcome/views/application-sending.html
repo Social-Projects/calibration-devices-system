@@ -485,7 +485,7 @@
                                            search-enabled="false"
                                            on-select="getProvidersByLocalityAndDeviceType(selectedValues.selectedLocality,selectedValues.secondSelectedDeviceType,'secondDeviceGroup')"
                                            id="secondSelectedDeviceType"
-                                           name="secondSelectedDeviceType">
+                                           name="secondSelectedDeviceType" required>
                                     <ui-select-match placeholder="Тип лічильника">
                                         {{$select.selected | translate}}
                                     </ui-select-match>
@@ -506,7 +506,7 @@
                                 <ui-select class="form-control" type="text" theme="select2"
                                            ng-model="selectedValues.secondSelectedProvider"
                                            search-enable="false"
-                                           name="secondDeviceProvider">
+                                           name="secondDeviceProvider" required>
                                     <ui-select-match placeholder="Провайдер">
                                         {{ $select.selected.designation}}
                                     </ui-select-match>
@@ -543,6 +543,7 @@
                     </div>
                 </div>
 
+
                 <div class="form-group ">
                     <div class="col-md-2">
                         <button type="submit" class="btn btn-success  pull-right text-uppercase">
@@ -550,12 +551,13 @@
                         </button>
                     </div>
                     <div class="col-md-2">
-                        <button type="reset" class="btn btn-warning text-uppercase"
+                        <button type="reset" class="btn btn-default text-uppercase"
                                 ng-click="resetApplicationForm()">
                             {{'CLEAR_FORM'|translate}}
                         </button>
                     </div>
-                    <div class="col-md-offset-4 col-md-2">
+
+                    <div class="form-group col-md-8">
                         <button class="btn btn-danger pull-right text-uppercase" ng-click="closeAlert()">
                             {{'CLOSE'|translate}}
                         </button>

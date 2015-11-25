@@ -9,6 +9,10 @@
         <th>{{verificationData.id}}</th>
     </tr>
 
+    <tr ng-show="verificationData.rejectedMessage">
+        <th>Причина повернення завки</th>
+        <th>{{verificationData.rejectedMessage}}</th>
+    </tr>
 </table>
 
 
