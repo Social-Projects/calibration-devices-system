@@ -12,6 +12,7 @@ import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.exceptions.NotAvailableException;
 import com.softserve.edu.service.utils.CalibrationTestDataList;
 import com.softserve.edu.service.utils.CalibrationTestList;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,7 +27,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -60,6 +63,8 @@ public class CalibrationTestServiceImplTest {
 
     @Mock
     private Verification verification;
+    @Mock
+    private BufferedImage buffered;
 
     @Mock
     private CalibrationTestData data;
@@ -123,17 +128,6 @@ public class CalibrationTestServiceImplTest {
     }
 
     @Test
-    public void testCreateNewTest() {
-        when(verificationRepository.findOne(verificationId)).thenReturn(verification);
-        try {
-            calibrationTestService.createNewTest(deviceTestData, verificationId);
-        }catch (Exception e){
-            System.out.println(e);
-        }
-        verify(verificationRepository).findOne(verificationId);
-    }
-
-    @Test
     public void testDeleteTest() {
         calibrationTestService.deleteTest(testId);
         verify(testRepository).delete(testId);
@@ -153,7 +147,7 @@ public class CalibrationTestServiceImplTest {
         Verification.ConsumptionStatus status = Verification.ConsumptionStatus.IN_THE_AREA;
         ArgumentCaptor<String> nameArg = ArgumentCaptor.forClass(String.class);
         when(testRepository.findOne(testId)).thenReturn(calibrationTest);
-        CalibrationTest calibrationTest = calibrationTestService.editTest(testId, name, 1, 1, 1d, 1d, status,
+        CalibrationTest calibrationTest = calibrationTestService.editTest(testId, name, "155", 1, 1d, 1d, status,
                 Verification.CalibrationTestResult.SUCCESS);
         verify(calibrationTest).setName(nameArg.capture());
         assertEquals(name, nameArg.getValue());
@@ -177,19 +171,16 @@ public class CalibrationTestServiceImplTest {
 
     @Test
     public void testUploadPhotos() throws Exception {
-      /*  String fileName = "./src/test/resources/photo/logo.jpg";
-        CalibrationTest calibrationTest = mock(CalibrationTest.class);
+        String fileName = "./src/test/resources/photo/logo.jpg";
+        CalibrationTestData calibrationTestData = mock(CalibrationTestData.class);
         InputStream file = new BufferedInputStream(new FileInputStream("./src/test/resources/photo/logo.jpg"));
-        CalibrationTestIMG testIMG = new CalibrationTestIMG(calibrationTest, fileName);
+        CalibrationTestIMG testIMG = new CalibrationTestIMG(calibrationTestData, fileName);
 
         stub(testRepository.findOne(testId)).toReturn(calibrationTest);
 
         calibrationTestService.uploadPhotos(file, testId, fileName);
 
-        verify(testIMGRepository).save(testIMG);
-
         file.close();
-        */
     }
 
     /*@Test
@@ -198,6 +189,19 @@ public class CalibrationTestServiceImplTest {
 
         verify(testRepository).save(any(CalibrationTest.class));
     }*/
+    @Test
+    public void testCreateNewTest() throws Exception {
+        when(verificationRepository.findOne(verificationId)).thenReturn(verification);
+        calibrationTest = new CalibrationTest(deviceTestData.getFileName(), deviceTestData.getInstallmentNumber(),
+                deviceTestData.getLatitude(), deviceTestData.getLongitude(), deviceTestData.getUnixTime(),
+                deviceTestData.getCurrentCounterNumber(), verification, deviceTestData.getInitialCapacity(),
+                deviceTestData.getTemperature());
+        when(testRepository.save(calibrationTest)).thenReturn(calibrationTest);
+
+        // when(ImageIO.read(new ByteArrayInputStream(Base64.decodeBase64(deviceTestData.getTestPhoto())))).thenReturn(buffered);
+        // stub(calibrationTestService.createNewTest(deviceTestData, verificationId)).toReturn(testId);
+
+    }
 
     @Test
     public void testCreateNewCalibrationTestData() throws Exception {
@@ -208,7 +212,7 @@ public class CalibrationTestServiceImplTest {
     @Test
     public void testCreateNewCalibrationTest() throws Exception {
         String name = "name";
-        Integer temperature = 20;
+        String capacity = "155";
         Integer settingNumber = 10;
         Double latitude = 24d;
         Double longitude = 48d;
@@ -217,7 +221,7 @@ public class CalibrationTestServiceImplTest {
         when(testRepository.findOne(testId)).thenReturn(expected);
 
         CalibrationTest actual = calibrationTestService.createNewCalibrationTest(testId, name,
-                temperature, settingNumber, latitude, longitude);
+                capacity, settingNumber, latitude, longitude);
 
         assertEquals(expected, actual);
     }

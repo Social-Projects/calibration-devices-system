@@ -1,0 +1,5 @@
+<html>
+	<body>
+			Доброго дня! По заявці $verificationId встановлено статус для лічильника $status.
+	</body>
+</html>

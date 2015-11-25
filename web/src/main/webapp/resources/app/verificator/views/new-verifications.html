@@ -45,13 +45,11 @@
                                     	<div ng-show="verification.processTimeExceeding>0"><b>{{'TIME_EXCEEDED' | translate}} {{verification.processTimeExceeding}} {{'DAYS' | translate}}</b></div>
                                     </td>
 
-                                    <td data-title="'VERIFICATION_ID' | translate" sortable="'id'" filter="{'id': 'text' }" ng-model="filters.id">{{verification.id}}</td>
+                                     <td data-title="'CLIENT_FULL_NAME' | translate" sortable="'client_full_name'" filter="{ 'client_full_name': 'text' }">{{ verification.fullName }}</td>
 
-                                    <td data-title="'CLIENT_FULL_NAME' | translate" sortable="'client_full_name'" filter="{ 'client_full_name': 'text' }">{{ verification.fullName }}</td>
-
-                                    <td data-title="'CLIENT_ADDRESS' | translate"  sortable="'street'" filter="{ 'street': 'text' }">{{ verification.street }}</td>
-                                    <td data-title="'PROVIDER_NAME' | translate" sortable="'provider_name'" filter="{ 'provider_name': 'text' }">{{ verification.providerEmployee }}</td>
-                                    <td data-title="'CALIBRATOR_NAME' | translate"  sortable="'calibrator_name'" filter="{ 'calibrator_name': 'text' }">{{ verification.calibratorEmployee }}</td>
+                                    <td data-title="'CLIENT_ADDRESS' | translate"  sortable="'street'" filter="{ 'street': 'text' }">{{ verification.address }}</td>
+                                    <td data-title="'PROVIDER_NAME' | translate" sortable="'provider_name'" filter="{ 'provider_name': 'text' }">{{ verification.nameProvider }}</td>
+                                    <td data-title="'CALIBRATOR_NAME' | translate"  sortable="'calibrator_name'" filter="{ 'calibrator_name': 'text' }">{{ verification.nameCalibrator }}</td>
                                     <td data-title="'STATUS' | translate"  sortable="'status'" filter="{ 'status': 'status' }">{{ verification.status | translate }}</td>
                                     <td data-title="'ACTIONS' | translate" style="width: 13%">
                                      

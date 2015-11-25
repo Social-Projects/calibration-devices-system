@@ -2,6 +2,13 @@ package com.softserve.edu.service.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.beans.BeanInfo;
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -51,6 +58,29 @@ public class TypeConverter {
         return map.entrySet().stream()
                 .filter(entry -> entry.getValue() != null)
                 .collect(Collectors.toMap(Map.Entry::getKey, newEntry -> String.valueOf(newEntry.getValue())));
+    }
+
+    /**
+     * Convert object to map of its fields and values (with values as Objects, not Strings)
+     * @param obj for converting
+     * @return map of fields and values
+     */
+    public static Map<String, Object> ObjectToMapWithObjectValues(Object obj) {
+
+        Map<String, Object> map = new HashMap<String, Object>();
+        try {
+            BeanInfo info = Introspector.getBeanInfo(obj.getClass());
+            for (PropertyDescriptor pd : info.getPropertyDescriptors()) {
+                Method reader = pd.getReadMethod();
+                if (reader != null && !reader.getName().equals("getClass"))
+                    map.put(pd.getName(), reader.invoke(obj));
+            }
+        } catch (InvocationTargetException | IntrospectionException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+        return map.entrySet().stream().filter(entry -> entry.getValue() != null)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
     }
 
 }

@@ -1,6 +1,7 @@
 package com.softserve.edu.service.admin.impl;
 
 import com.softserve.edu.entity.device.CalibrationModule;
+import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.user.User;
 import com.softserve.edu.repository.CalibrationModuleRepository;
 import com.softserve.edu.repository.UserRepository;
@@ -8,12 +9,12 @@ import com.softserve.edu.service.admin.CalibrationModuleService;
 import com.softserve.edu.service.utils.filter.Filter;
 import com.softserve.edu.service.utils.filter.internal.Comparison;
 import com.softserve.edu.service.utils.filter.internal.Condition;
-import com.softserve.edu.specification.CalibrationModuleSpecification;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -42,7 +43,9 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
         return calibrationModuleRepository.findOne(calibrationModuleId);
     }
 
-
+    public void deleteCalibrationModule(Long moduleId) {
+        calibrationModuleRepository.delete(moduleId);
+    }
 
     public void disableCalibrationModule(Long calibrationModuleId) {
         CalibrationModule calibrationModule = calibrationModuleRepository.findOne(calibrationModuleId);
@@ -50,26 +53,17 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
         calibrationModuleRepository.save(calibrationModule);
     }
 
+    public void enableCalibrationModule(Long calibrationModuleId) {
+        CalibrationModule calibrationModule = calibrationModuleRepository.findOne(calibrationModuleId);
+        calibrationModule.setIsActive(true);
+        calibrationModuleRepository.save(calibrationModule);
+    }
 
-    public Page<CalibrationModule> getFilteredPageOfCalibrationModule(Map<String, String> searchKeys, Pageable pageable) {
-        CalibrationModuleSpecification calibrationModuleSpecification = new CalibrationModuleSpecification();
-        Filter filter = new Filter();
-        for (Map.Entry<String, String> entry : searchKeys.entrySet()) {
-            if (entry.getKey().equals("isActive")) {
-                filter.addCondition(new Condition.Builder()
-                        .setComparison(Comparison.eq)
-                        .setField(entry.getKey())
-                        .setValue(Boolean.parseBoolean(entry.getValue()))
-                        .build());
-            } else {
-                filter.addCondition(new Condition.Builder()
-                        .setComparison(Comparison.like)
-                        .setField(entry.getKey())
-                        .setValue(entry.getValue())
-                        .build());
-            }
-        }
-        return calibrationModuleRepository.findAll(filter, pageable);
+    public Page<CalibrationModule> getFilteredPageOfCalibrationModule(Map<String, Object> searchKeys, Pageable pageable) {
+
+        // Filter filter = new Filter(searchKeys);
+//        filter=filter.createFilterFromSearchKeys(searchKeys);
+        return calibrationModuleRepository.findAll(new Filter(searchKeys), pageable);
     }
 
     public Page<CalibrationModule> findAllModules(Pageable pageable) {
@@ -83,7 +77,7 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
     }
 
 
-    public List<String> findAllCalibrationModulsNumbers(String moduleType, Date workDate, String applicationFiled,
+    public List<String> findAllCalibrationModulsNumbers(String moduleType, Date workDate, String deviceType,
                                                         String userName) {
         Filter filter = new Filter();
         List<Condition> conditions = new ArrayList<>();
@@ -94,11 +88,11 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
             throw new NullPointerException();
         }
         conditions.add(new Condition.Builder()
-                .setComparison(Comparison.like).setField("moduleType").setValue(moduleType).build());
+                .setComparison(Comparison.eq).setField("moduleType").setValue(CalibrationModule.ModuleType.valueOf(moduleType)).build());
         conditions.add(new Condition.Builder()
                 .setComparison(Comparison.eq).setField("workDate").setValue(workDate).build());
         conditions.add(new Condition.Builder()
-                .setComparison(Comparison.eq).setField("deviceType").setValue(applicationFiled).build());
+                .setComparison(Comparison.eq).setField("deviceType").setValue(Device.DeviceType.valueOf(deviceType)).build());
         conditions.add(new Condition.Builder()
                 .setComparison(Comparison.eq).setField("organizationCode").setValue(user.getOrganization().getId())
                 .build());
@@ -113,7 +107,12 @@ public class CalibrationModuleServiceImpl implements CalibrationModuleService {
             }
         }
         return serialNumbersList;
+    }
 
+    @Override
+    @Transactional(readOnly = true)
+    public Date getEarliestDate() {
+        return calibrationModuleRepository.findEarliestDateAvailableCalibrationModule();
     }
 
 }

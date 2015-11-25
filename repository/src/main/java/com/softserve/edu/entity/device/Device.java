@@ -66,9 +66,9 @@ public class Device {
      *
      */
     public enum DeviceType {
-        ELECTRICAL,
-        GASEOUS,
         WATER,
+        GASEOUS,
+        ELECTRICAL,
         THERMAL
     }
 }

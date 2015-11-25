@@ -1,4 +1,4 @@
-<div class="modal-body" ng-show="isShownForm">
+<div class="modal-body" style="height: 2400px" ng-show="isShownForm">
     <form name="clientForm" ng-submit="sendApplicationData()" novalidate>
         <div class="panel panel-primary">
             <div class="panel-heading">{{'GENERAL_INFORMATION' | translate }}</div>
@@ -375,7 +375,6 @@
                                 </ui-select>
                             </div>
                             <div class="col-md-9 pull-right" id="deviceBox">
-
                                 <ui-select class="form-control" type="text" theme="select2"
                                            ng-model="selectedData.selectedDevice"
                                            on-select="receiveCalibrators(selectedData.selectedDevice)"
@@ -423,10 +422,10 @@
 
                         </div>
                     </div>
+
                     <div class="form-group" ng-show="calibratorDefined">
                         <div class="col-md-4 form-group">
-                            <label for="calibrator">
-                                {{'CALIBRATOR' | translate}} </label>
+                            <label for="calibrator">{{ 'CALIBRATOR' | translate}} </label>
                         </div>
                         <div class="col-md-8 form-group" show-errors>
                             <input id="calibratorInfo" name="calibratorInfo" class="form-control"
@@ -435,10 +434,159 @@
                                    readonly>
                         </div>
                     </div>
+                    <div class="form-group">
+
+                        <!-- ISdismantled  -->
+                        <div class="form-group col-md-4">
+                            <label class="control-label">{{ 'DISMANTLED_COUNTER' | translate}}</label>
+                        </div>
+                        <div class="form-group col-md-8" >
+                            <input type="checkbox" ng-value="true"  checked
+                                   ng-model="selectedData.dismantled"
+                                   id="dismantled" name="dismantled" class="form-control"/>
+                        </div>
+
+                        <!-- DATE OF dismantled  -->
+
+                        <div class="form-group col-md-4" >
+                            <label class="control-label">{{' DATE_OF_DISMANTLED '| translate }}</label>
+                        </div>
+
+                        <div class="form-group col-md-8" ng-class="dateValidation.css" >
+                            <div class="input-group right-inner-addon" style="width: 100%">
+                                    <span class="input-group-btn" style="height: 100%">
+                                         <button type="button" class="btn btn-default myGroupBtn" ng-click="open3($event)">
+                                             <i class="glyphicon glyphicon-calendar"></i>
+                                         </button>
+                                    </span>
+
+                                <input type="text" class="form-control date-picker" datepicker-popup
+                                       ng-model="selectedData.dateOfDismantled "
+                                       is-open="thirdCalendar.isOpen"
+                                       min-date="minDate" max-date="maxDate"
+                                       datepicker-options="dateOptions"
+                                       date-disabled="disabled(date, mode)" close-text="Close"
+                                       ng-change="receiveModuleNumbers()" readonly required/>
+                                              <span class="input-group-btn">
+                                                   <button type="button" class="btn btn-default myGroupBtn"
+                                                           ng-show="!isDateDefault()"
+                                                           ng-click="clearDate1()">
+                                                       <i class="glyphicon glyphicon-remove"></i>
+                                                   </button>
+                                              </span>
+                            </div>
+                            <div ng-show="formTask.$submitted || formTask.date.$touched">
+                                <div ng-show="formTask.date.$error.required">
+                                    <span style="color: red" class="glyphicon glyphicon-exclamation-sign"> </span>{{'REQUIRED' | translate}}
+                                </div>
+                            </div>
+                            <br>
+                        </div>
+
+                        <!-- DATE OF assembling  -->
+
+                        <div class="form-group col-md-4" >
+                            <label class="control-label">{{' DATE_OF_MOUNTED '| translate }}</label>
+                        </div>
+
+                        <div class="form-group col-md-8" ng-class="dateValidation.css" >
+                            <div class="input-group right-inner-addon" style="width: 100%">
+                                    <span class="input-group-btn" style="height: 100%">
+                                         <button type="button" class="btn btn-default myGroupBtn" ng-click="open4($event)">
+                                             <i class="glyphicon glyphicon-calendar"></i>
+                                         </button>
+                                    </span>
+
+                                <input type="text" class="form-control date-picker" datepicker-popup
+                                       ng-model="selectedData.dateOfMounted "
+                                       is-open="fourthCalendar.isOpen"
+                                       min-date="minDate" max-date="maxDate"
+                                       datepicker-options="dateOptions"
+                                       date-disabled="disabled(date, mode)" close-text="Close"
+                                       ng-change="receiveModuleNumbers()" readonly required/>
+                                              <span class="input-group-btn">
+                                                   <button type="button" class="btn btn-default myGroupBtn"
+                                                           ng-show="!isDateDefault()"
+                                                           ng-click="clearDate1()">
+                                                       <i class="glyphicon glyphicon-remove"></i>
+                                                   </button>
+                                              </span>
+                            </div>
+                            <div ng-show="formTask.$submitted || formTask.date.$touched">
+                                <div ng-show="formTask.date.$error.required">
+                                    <span style="color: red" class="glyphicon glyphicon-exclamation-sign"> </span>{{'REQUIRED' | translate}}
+                                </div>
+                            </div>
+                            <br>
+                        </div>
+
+                        <!--NUMBER OF COUNTER-->
+                        <div class="form-group col-md-4">
+                            <label class="control-label">{{' NUMBER_OF_COUNTER ' | translate}}</label>
+                        </div>
+                        <div class="form-group col-md-8" ng-class="floorValidation.css">
+                            <input type="text"
+                                   ng-model="selectedData.numberCounter"
+                                   ng-change="checkAll('numberCounter')"
+                                   id="numberCounter" name="numberCounter" class="form-control">
+                            <p class="validation-message" ng-show="numberCounter.isValid">{{'DOOR_CODE_REGEX' |  translate}}</p>
+                        </div>
+
+                        <!--SYMBOL OF COUNTER-->
+                        <div class="col-md-4 form-group">
+                            <label for="counter">{{' SYMBOL_OF_COUNTER ' | translate}} </label>
+                        </div>
+                        <div class="col-md-8 form-group" show-errors>
+                            <div class="pull-left col-lg-3" id="symbolCounter">
+                                <ui-select class="form-control" type="text" theme="select2"
+                                           ng-model="selectedData.selectedSymbel"
+                                           name="symbolCounter" id="symbolCounter" required>
+                                    <ui-select-match allow-clear="false">
+                                        {{$select.selected}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="option in symbolCounterOptions | filter: $select.search">
+                                        <span ng-bind-html="option"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+
+                        <!--STANDART_SIZE_OF_COUNTER standard sizeSYMBOL OF COUNTER-->
+                        <div class="col-md-4 form-group">
+                            <label for="sizeCounter">{{' STANDART_SIZE_OF_COUNTER ' | translate}} </label>
+                        </div>
+                        <div class="col-md-8 form-group" show-errors>
+                            <div class="pull-left col-lg-3" id="sizeCounter">
+                                <ui-select class="form-control" type="text" theme="select2"
+                                           ng-model="selectedData.sizeCounter"
+                                           name="sizeCounter" id="counter" required>
+                                    <ui-select-match allow-clear="false">
+                                        {{$select.selected}}
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="option in deviceCountOptions | filter: $select.search">
+                                        <span ng-bind-html="option"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+
+                        <!--YEAR OF COUNTER-->
+                        <div class="form-group col-md-4">
+                            <label class="control-label">{{' YEAR OF COUNTER ' | translate}}</label>
+                        </div>
+                        <div class="form-group col-md-8" ng-class="floorValidation.css">
+                            <input type="text"
+                                   ng-model="selectedData.yearOfcounter"
+                                   ng-change="checkAll('yearOfcounter')"
+                                   id="yearOfcounter" name="yearOfcounter" class="form-control">
+                            <p class="validation-message" ng-show="yearOfcounter.isValid">{{'DOOR_CODE_REGEX' |  translate}}</p>
+                        </div>
+
+
+                    </div>
                 </div>
             </div>
         </div>
-
 
         <div class="panel panel-primary">
             <div class="panel-heading">Додаткова інформація</div>
@@ -461,7 +609,7 @@
                             </div>
 
                         <!-- DOOR CODE-->
-                              <div class="form-group col-md-4">
+                            <div class="form-group col-md-4">
                                 <label class="control-label">{{'DOOR_CODE' | translate}}</label>
                             </div>
                             <div class="form-group col-md-8" ng-class="floorValidation.css">

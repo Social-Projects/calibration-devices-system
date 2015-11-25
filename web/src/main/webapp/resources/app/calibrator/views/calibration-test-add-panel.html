@@ -110,11 +110,11 @@
 
             <div class="row">
                 <div class="form-group col-md-5">
-                    <label class="control-label">{{'TEMPERATURE' | translate}}</label>
+                    <label class="control-label">{{'TYPE WATER' | translate}}</label>
                 </div>
                 <div class="form-group col-md-7">
-                    <input type="number" ng-model="TestForm.temperature"
-                           name="temperature" class="form-control input-sm" required>
+                    <input type="text" ng-model="TestForm.typewater"
+                           name="typewater" class="form-control input-sm" required>
                 </div>
             </div>
 
@@ -242,8 +242,7 @@
                             translate }}</label>
                     </td>
                     <td>
-                        <label class="control-label">{{'TEST_RESULT' |
-                            translate }}</label>
+                        <label class="control-label">{{'TEST_RESULT' | translate }}</label>
                     </td>
                 </tr>
                 </thead>
@@ -295,7 +294,8 @@
                                    class="form-control input-sm" required>
                         </td>
                         <td>
-                            <input type="text" ng-model="testData.testResult" ng-disabled="fileLoaded"
+
+                            <input type="text"  ng-model="testData.testResult" ng-disabled="fileLoaded"
                                    class="form-control input-sm" required>
                         </td>
                     </tr>
@@ -339,8 +339,6 @@
                 <button ng-if="hasProtocol || fileLoaded" type="submit" class="btn btn-success btn-md" ng-click="updateCalibrationTest()"
                         >{{'EDIT_CHANGES' | translate}}
                 </button>
-                <div>
-                </div>
                 <button ng-if="!hasProtocol" type="submit" class="btn btn-success btn-md" ng-show="!fileLoaded"
                         ng-click="saveCalibrationTest()">{{'ADD' | translate}}
                 </button>
@@ -350,17 +348,22 @@
                          ng-click="fileName = uploadBbiFile(testId)">
                     </img> {{ 'UPLOAD_BBI_FILE' | translate }}
                 </button>
-                <ui-select ng-if="hasProtocol" ng-model="selectedStatus.name" theme="select2"
+                <ui-select ng-if="hasProtocol" ng-model="selectedStatus" style="width:140px" theme="select2"
                            search-enabled="false"
-                           name="filter-status">
-                    <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}"
-                                     allow-clear="true">
+                           on-select="setStatus($item)"
+                           name="name" id="name">
+                    <ui-select-match placeholder="{{'STATUS_SELECT_PLACEHOLDER' | translate}}" >
                         {{$select.selected.label}}
                     </ui-select-match>
                     <ui-select-choices  repeat="status in statusData">
                         <span ng-bind-html="status.label"></span>
                     </ui-select-choices>
                 </ui-select>
+
+                <button ng-if="hasProtocol || fileLoaded" type="submit" class="btn btn-danger " ng-click="closeForm()"
+                        >{{'CLOSE' | translate}}
+                </button>
+
             </div>
         </div>
     </form>

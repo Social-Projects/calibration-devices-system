@@ -109,7 +109,12 @@ angular
                     url: '/calibration-module',
                     templateUrl: 'resources/app/admin/views/measurement-equipments.html',
                     controller: 'MeasuringEquipmentControllerAdmin'
-                });
+                })
+                .state("unsuitability-reasons", {
+                    url: '/unsuitability-reasons',
+                    templateUrl: 'resources/app/admin/views/unsuitability-reasons.html',
+                    controller: 'UnsuitabilityReasonController'
+                });;
             /*
              Extended ui-select-choices: added watch for ng-translate event called translateChangeEnd
              When translation of page will end, items of select (on the scope) will be changed too.
@@ -153,6 +158,7 @@ define(['controllers/TopNavBarController', 'controllers/MainPanelController',
     'controllers/MeasuringEquipmentControllerAdmin',
     'controllers/MeasuringEquipmentAddModalControllerAdmin',
     'controllers/MeasuringEquipmentEditModalControllerAdmin',
+    'controllers/MeasuringEquipmentDisableModalControllerAdmin',
 
     'controllers/OrganizationPanelController',
     'controllers/OrganizationAddModalController',
@@ -184,6 +190,8 @@ define(['controllers/TopNavBarController', 'controllers/MainPanelController',
     'services/ResponseObserver',
     'services/MeasuringEquipmentServiceAdmin',
     'directives/unique',
-    'controllers/CommonController'
+    'controllers/CommonController',
+    'controllers/UnsuitabilityReasonController',
+    'services/UnsuitabilityReasonService'
 ], function () {
 });

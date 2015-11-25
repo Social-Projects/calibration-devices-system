@@ -45,35 +45,40 @@
                                             translate}}</b>
                                         </div>
                                     </td>
-                                    <td data-title="'VERIFICATION_ID' | translate"
-                                        filter="{ 'id': 'text' }" ng-model="filters.id">{{ verification.verficationId }}
+                                    <td data-title="'CLIENT_FULL_NAME' | translate"
+                                        filter="{ 'client_full_name': 'text' }">{{ verification.clientFullName }}
                                     </td>
                                     <td data-title="'PROVIDER_NAME' | translate"
                                         filter="{ 'provider': 'text' }" ng-model="filters.id">{{ verification.providerName }}
                                     </td>
-                                    <td data-title="'CLIENT_FULL_NAME' | translate"
-                                        filter="{ 'client_full_name': 'text' }">{{ verification.clientFullName }}
+                                    <td data-title="'DISTRICT' | translate" sortable="'district'"
+                                        filter="{ 'district': 'text' }">{{ verification.district}}
                                     </td>
-                                    <td data-title="'CLIENT_ADDRESS' | translate"
-                                        filter="{ 'address': 'text' }">{{ verification.address }}
+                                    <td data-title="'STREET' | translate" sortable="'street'"
+                                        filter="{ 'street': 'text' }">{{ verification.street }}
                                     </td>
-                                    <td data-title="'COUNTER_STATUS' | translate"
-                                        filter="{ 'counter_status': 'text' }">{{ verification.counterStatus }}
+                                    <td data-title="'BUILDING,FLAT' | translate" sortable="'building'"
+                                        filter="{ 'building': 'text' }">{{ verification.building_flat }}
                                     </td>
-                                    <td data-title="'MEASUREMENT_DEVICE_TYPE' | translate"
-                                        filter="{ 'deviceType': 'text' }">{{ verification.deviceType }}
+                                    <td data-title="'Бажана дата повірки'"
+                                        filter="{ 'dateOfVerif': 'text' }">{{ verification.dateOfVerif }}
+                                    </td>
+                                    <td data-title="'Бажаний час'"
+                                        filter="{ 'time': 'text' }">{{ verification.time }}
+                                    </td>
+                                    <td data-title="'Справність сантехніки'"
+                                        filter="{ 'serviceability': 'text' }">{{ verification.serviceability }}
+                                    </td>
+                                    <td data-title="'Вода відсутня до:'"
+                                        filter="{ 'noWaterToDate': 'text' }">{{ verification.noWaterToDate }}
+                                    </td>
+                                    <td data-title="'Наявність пломби'"
+                                        filter="{ 'sealPresence': 'text' }">{{ verification.sealPresence }}
                                     </td>
                                     <td data-title="'TELEPHONE' | translate"
-                                        filter="{ 'telephone': 'text' }">{{ verification.telephone }}
+                                        filter="{ 'telephone': 'text' }">{{ verification.phone }}
                                     </td>
-                                    <td data-title="'ACTIONS' | translate" style="width: 15%">
-                                        <div style="width: auto; text-align: center;">
-                                           <span style="color: #1a531b" popover="Iнформація про лічильник"
-                                                  popover-trigger="mouseenter"
-                                                  ng-click="openCounterInfoModal(verification.verficationId)">
-                                                <i class="fa fa-info-circle"></i>
-                                           </span>
-                                        </div>
+
                                 </tr>
                                 </tbody>
 

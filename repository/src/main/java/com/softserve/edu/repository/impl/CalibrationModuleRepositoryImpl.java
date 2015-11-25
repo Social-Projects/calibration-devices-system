@@ -1,10 +1,14 @@
 package com.softserve.edu.repository.impl;
 
 import com.softserve.edu.entity.device.CalibrationModule;
+import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.repository.CalibrationModuleRepository;
 import com.softserve.edu.repository.CalibrationModuleRepositoryCustom;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by roman on 13.11.15.
@@ -24,16 +28,12 @@ public class CalibrationModuleRepositoryImpl implements CalibrationModuleReposit
     }
 
     private void generateModuleNumber(CalibrationModule cm) {
-        StringBuilder sb = new StringBuilder();
-        switch (cm.getDeviceType()) {
-            case WATER: sb.append("1"); break;
-            case GASEOUS: sb.append("2"); break;
-            case ELECTRICAL: sb.append("3"); break;
-            case THERMAL: sb.append("4"); break;
-            default: break;
+        Map<Device.DeviceType, Integer> moduleNumbers = new HashMap<Device.DeviceType, Integer>();
+        Device.DeviceType[] deviceTypes = Device.DeviceType.values();
+        for (int i = 0; i < deviceTypes.length; i++) {
+            moduleNumbers.put(deviceTypes[i], i + 1);
         }
-        sb.append(String.format("%03d", cm.getModuleId()));
-        cm.setModuleNumber(sb.toString());
+        cm.setModuleNumber(String.format("%1d%03d", moduleNumbers.get(cm.getDeviceType()), cm.getModuleId()));
     }
 
 }

@@ -15,8 +15,8 @@
         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
             <p></p>
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
-            <button ng-click="clearAll()" ng-show="isFilter()"
+        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-2 pull-right" ng-show="isFilter()">
+            <button ng-click="clearAll()"
                     class="btn btn-danger pull-right col-xs-12 col-sm-12 col-md-10 col-lg-10">
                 {{'CLEAR_ALL' | translate }}
             </button>
@@ -25,93 +25,164 @@
     <p></p>
 
     <div class="row">
-        <div class="col-md-12">
-            <div class="table-responsive">
-                <table show-filter="true" ng-table="tableParams" template-pagination="custom/pager"
-                       class="table table-bordered table-hover users_table">
-                    <tbody>
-                    <tr ng-repeat="calibrationModule in $data">
-                        <td data-title="'SPHERE_OF_APPLICATION' | translate" sortable="'deviceType'"
-                            filter="{ 'deviceType': 'text' }">
-                            {{ calibrationModule.deviceType | translate }}
-                        </td>
-                        <td data-title="'SYMBOL' | translate" sortable="'condDesignation'"
-                            filter="{ 'condDesignation': 'text' }">{{ calibrationModule.condDesignation}}
-                        </td>
-                        <td data-title="'CONTACT_PERSON_FULL_NAME' | translate" sortable="'employeeFullName'"
-                            filter="{ 'employeeFullName': 'text' }">{{ calibrationModule.employeeFullName }}
-                        </td>
-                        <td data-title="'PHONE_NUMBER' | translate" sortable="'telephone'"
-                            filter="{ 'telephone': 'text' }">+380{{ calibrationModule.telephone }}
-                        </td>
-                        <td data-title="'VALID_UNTIL' | translate" sortable="'workDate'"
-                            filter="{ 'workDate': 'text' }">{{ calibrationModule.workDate }}
-                        </td>
-                        <td data-title="'INSTALLATION_TYPE' | translate" sortable="'moduleType'"
-                            filter="{ 'moduleType': 'text' }">{{ calibrationModule.moduleType | translate }}
-                        </td>
-                        <td data-title="'ACTIONS' | translate" class="text-center">
-
-                            <div class="btn-group-vertical">
-                                <button type="button" class="btn btn-warning"
-                                        ng-click="openEditCalibrationModuleModal(calibrationModule.moduleId)">
-                                    <span class="glyphicon glyphicon-pencil"></span>
-                                </button>
-                                <button type="button" class="btn btn-danger" >
-                                    <span class="glyphicon glyphicon-remove"></span>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <script type="text/ng-template" id="custom/pager">
-                <div>
-                    <ul class="pager ng-cloak">
-                        <li ng-repeat="page in pages"
-                            ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
-                            ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
-                            <a ng-switch-when="prev" ng-click="params.page(page.number)" href="">&laquo;
-                                {{'PREVIOUS' | translate}}</a>
-                            <a ng-switch-when="next" ng-click="params.page(page.number)"
-                               href="">{{'NEXT' | translate}} &raquo;</a>
-                        </li>
-                        <li>
-                            <div class="btn-group">
-                                <button type="button" ng-class="{'active':params.count() == 5}"
-                                        ng-click="params.count(5)" class="btn btn-default">5
-                                </button>
-                                <button type="button" ng-class="{'active':params.count() == 10}"
-                                        ng-click="params.count(10)" class="btn btn-default">10
-                                </button>
-                                <button type="button" ng-class="{'active':params.count() == 25}"
-                                        ng-click="params.count(25)" class="btn btn-default">25
-                                </button>
-                                <button type="button" ng-class="{'active':params.count() == 50}"
-                                        ng-click="params.count(50)" class="btn btn-default">50
-                                </button>
-                            </div>
-                        </li>
-                    </ul>
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <form class="form-inline">
+                                <div class="form-group">
+                                    <label>{{'SHOW' | translate}}: </label>
+                                    <div class="btn-group">
+                                        <label class="btn btn-primary btn-sm" ng-model="showModules" btn-radio="'Active'"
+                                               ng-change="onTableHandling()">{{'ACTIVE' | translate}}</label>
+                                        <label class="btn btn-primary btn-sm" ng-model="showModules" btn-radio="'Disabled'"
+                                               ng-change="onTableHandling()">{{'DISABLED' | translate}}</label>
+                                        <label class="btn btn-primary btn-sm" ng-model="showModules" btn-radio="'All'"
+                                               ng-change="onTableHandling()">{{'ALL' | translate}}</label>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-lg-8">
+                            <span class="pull-right"><span
+                                    translate="OVERALL_NUMBER_OF_CALIBRATION_MODULES"></span>: {{resultsCount}}
+                            </span>
+                        </div>
+                    </div>
                 </div>
-            </script>
-            <script type="text/ng-template" id="ng-table/filters/organizationType.html">
-                <ui-select ng-model="selectedOrganizationType.name" theme="select2" on-select='doSearch()'
-                           search-enabled="false"
-                           name="filter-organizationType">
-                    <ui-select-match placeholder="{{'USER_ROLE_SELECT_PLACEHOLDER' | translate}}"
-                                     allow-clear="true">
-                        {{$select.selected.label}}
-                    </ui-select-match>
-                    <ui-select-choices
-                            repeat="organizationType in organizationTypeData">
-                        <span ng-bind-html="organizationType.label"></span>
-                    </ui-select-choices>
-                </ui-select>
-            </script>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="table-responsive">
+                                <table show-filter="true" ng-table="tableParams" template-pagination="custom/pager"
+                                       class="table table-bordered table-hover users_table">
+                                    <tbody>
+                                    <tr ng-repeat="calibrationModule in $data">
+                                        <td data-title="'SPHERE_OF_APPLICATION' | translate"
+                                            sortable="'deviceType'"
+                                            filter="{ deviceType : 'deviceType' }">
+                                            {{ calibrationModule.deviceType | translate }}
+                                        </td>
+                                        <td data-title="'VALID_UNTIL' | translate" class="datecolumn" sortable="'workDate'"
+                                            filter="{ workDate: 'daterange' }">{{ calibrationModule.workDate | date : 'dd-MM-yyyy' }}
+                                        </td>
+                                        <td data-title="'SYMBOL' | translate" sortable="'condDesignation'"
+                            filter="{ condDesignation: 'text' }">{{ calibrationModule.condDesignation}}
+                                        </td>
+                                        <td data-title="'CONTACT_PERSON_FULL_NAME' | translate" sortable="'employeeFullName'"
+                            filter="{ employeeFullName: 'text' }">{{ calibrationModule.employeeFullName }}
+                                        </td>
+                                        <td data-title="'PHONE_NUMBER' | translate" sortable="'telephone'"
+                            filter="{ telephone: 'text' }">+380{{ calibrationModule.telephone }}
+                                        </td>
+                                        <td data-title="'INSTALLATION_TYPE' | translate" sortable="'moduleType'"
+                                            filter="{ moduleType: 'moduleType' }">{{ calibrationModule.moduleType | translate }}
+                                        </td>
+                                        <td data-title="'ACTIONS' | translate" class="text-center">
+
+                                            <div class="btn-group-vertical">
+                                                <button type="button" class="btn btn-warning"
+                                                        ng-click="openEditCalibrationModuleModal(calibrationModule.moduleId)">
+                                                    <span class="glyphicon glyphicon-pencil"></span>
+                                                </button>
+                                                <button type="button" class="btn btn-primary"
+                                                        ng-show="!calibrationModule.isActive"
+                                                        ng-click="enableCalibrationModule(calibrationModule.moduleId)">
+                                                    <span class="glyphicon glyphicon-off"></span>
+                                                </button>
+                                                <button type="button" class="btn btn-danger"
+                                                        ng-show="calibrationModule.isActive"
+                                                        ng-click="openDisableCalibrationModuleModal(calibrationModule.moduleId)">
+                                                    <span class="glyphicon glyphicon-remove"></span>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <script type="text/ng-template" id="custom/pager">
+                                <div>
+                                    <ul class="pager ng-cloak">
+                                        <li ng-repeat="page in pages"
+                                            ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
+                                            ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
+                                            <a ng-switch-when="prev" ng-click="params.page(page.number)" href="">&laquo;
+                                                {{'PREVIOUS' | translate}}</a>
+                                            <a ng-switch-when="next" ng-click="params.page(page.number)"
+                                               href="">{{'NEXT' | translate}} &raquo;</a>
+                                        </li>
+                                        <li>
+                                            <div class="btn-group">
+                                                <button type="button" ng-class="{'active':params.count() == 5}"
+                                                        ng-click="params.count(5)" class="btn btn-default">5
+                                                </button>
+                                                <button type="button" ng-class="{'active':params.count() == 10}"
+                                                        ng-click="params.count(10)" class="btn btn-default">10
+                                                </button>
+                                                <button type="button" ng-class="{'active':params.count() == 25}"
+                                                        ng-click="params.count(25)" class="btn btn-default">25
+                                                </button>
+                                                <button type="button" ng-class="{'active':params.count() == 50}"
+                                                        ng-click="params.count(50)" class="btn btn-default">50
+                                                </button>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </script>
+                            <script type="text/ng-template" id="ng-table/filters/deviceType.html">
+                                <ui-select ng-model="selectedDeviceType.name" theme="select2"
+                                           on-select='onTableHandling()'
+                                           search-enabled="false"
+                                           name="filter-deviceType">
+                                    <ui-select-match placeholder="{{'STATUS_SELECT_SPHERE_OF_APPLICATION' | translate}}"
+                                                     allow-clear="true">
+                                        {{$select.selected.label}}
+                                    </ui-select-match>
+                                    <ui-select-choices
+                                            repeat="deviceType in deviceTypeData">
+                                        <span ng-bind-html="deviceType.label"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </script>
+                            <script type="text/ng-template" id="ng-table/filters/moduleType.html">
+                                <ui-select ng-model="selectedModuleType.name" theme="select2"
+                                           on-select='onTableHandling()'
+                                           search-enabled="false"
+                                           name="filter-moduleType">
+                                    <ui-select-match placeholder="{{'STATUS_SELECT_MODULE_TYPE' | translate}}"
+                                                     allow-clear="true">
+                                        {{$select.selected.label}}
+                                    </ui-select-match>
+                                    <ui-select-choices
+                                            repeat="moduleType in moduleTypeData">
+                                        <span ng-bind-html="moduleType.label"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </script>
+                            <script type="text/ng-template" id="ng-table/filters/daterange.html">
+                                <div class="input-group right-inner-addon">
+                                    <i id="calendar_icon" class="glyphicon glyphicon-calendar"
+                                       ng-click="showPicker($event)"></i>
+                                    <input date-range-picker="opts" class="form-control date-picker" type="text"
+                                           ng-model="myDatePicker.pickerDate" ng-change="onTableHandling()" options="opts"
+                                           id="datepickerfield" readonly/>
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default myGroupBtn"
+                                                ng-show="!isDateDefault()"
+                                                ng-click="clearDate()">
+                                            <i class="glyphicon glyphicon-remove"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                            </script>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 </div>
 <!-- /#page-wrapper -->

@@ -5,8 +5,12 @@ public enum Comparison {
     eq,
     // greaterThan
     gt,
+    // greaterEqual
+    ge,
     // lowerThan
     lt,
+    // lowerEqual
+    le,
     // not equal
     ne,
     // is null

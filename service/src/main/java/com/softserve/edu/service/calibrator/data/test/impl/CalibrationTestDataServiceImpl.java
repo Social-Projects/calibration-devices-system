@@ -63,38 +63,40 @@ public class CalibrationTestDataServiceImpl implements CalibrationTestDataServic
     }
 
     @Override
-    public CalibrationTestData createNewTestData(Long testId, DeviceTestData deviceTestData, int testDataId) throws IOException {
+    public CalibrationTestData createNewTestData(Long testId, DeviceTestData deviceTestData,
+                                                 int testDataId) throws IOException {
 
-        double volumeInDevice = round(deviceTestData.getTestTerminalCounterValue(testDataId) - deviceTestData.getTestInitialCounterValue(testDataId), 2);
-        double actualConsumption = convertImpulsesPerSecToCubicMetersPerHour(deviceTestData.getTestCorrectedCurrentConsumption(testDataId),
+        double volumeInDevice = round(deviceTestData.getTestTerminalCounterValue(testDataId)
+                - deviceTestData.getTestInitialCounterValue(testDataId), 2);
+        double actualConsumption = convertImpulsesPerSecToCubicMetersPerHour(
+               deviceTestData.getTestSpecifiedImpulsesAmount(testDataId),
+                deviceTestData.getTestDuration(testDataId));
+        double givenConsumption = convertImpulsesPerSecToCubicMetersPerHour(
+                deviceTestData.getTestSpecifiedConsumption(testDataId),
                 deviceTestData.getImpulsePricePerLitre());
-        double givenConsumption = convertImpulsesPerSecToCubicMetersPerHour(deviceTestData.getTestSpecifiedConsumption(testDataId),
-                deviceTestData.getImpulsePricePerLitre());
-        double  calculationError=countCalculationError(volumeInDevice, deviceTestData.getTestSpecifiedImpulsesAmount(testDataId));
+
         CalibrationTest calibrationTest = testRepository.findById(testId);
-        CalibrationTestData сalibrationTestData = new CalibrationTestData(givenConsumption, deviceTestData.getTestAllowableError(testDataId),
-                deviceTestData.getTestSpecifiedImpulsesAmount(testDataId), deviceTestData.getTestInitialCounterValue(testDataId),
-                deviceTestData.getTestTerminalCounterValue(testDataId), volumeInDevice, actualConsumption,calculationError,
-                calibrationTest, deviceTestData.getTestDuration(testDataId), deviceTestData.getTestLowerConsumptionLimit(testDataId),
-                deviceTestData.getTestUpperConsumptionLimit(testDataId), testDataId);
+        CalibrationTestData сalibrationTestData = new CalibrationTestData(givenConsumption,
+                deviceTestData.getTestAllowableError(testDataId),
+                deviceTestData.getTestSpecifiedImpulsesAmount(testDataId),
+                deviceTestData.getTestInitialCounterValue(testDataId),
+                deviceTestData.getTestTerminalCounterValue(testDataId), volumeInDevice,
+                actualConsumption,deviceTestData.getTestEstimatedError(testDataId),
+                calibrationTest, deviceTestData.getTestDuration(testDataId),
+                deviceTestData.getTestLowerConsumptionLimit(testDataId),
+                deviceTestData.getTestUpperConsumptionLimit(testDataId),
+                deviceTestData.getTestNumber(testDataId));
+
         dataRepository.save(сalibrationTestData);
         testDataIMGService.createTestDataIMGCalibrationTestIMGs(testDataId, deviceTestData, сalibrationTestData);
         return сalibrationTestData;
     }
 
     private double round(double val, int scale) {
-        return new BigDecimal(val).setScale(scale, RoundingMode.HALF_UP).doubleValue();
+        return BigDecimal.valueOf(val).setScale(scale, RoundingMode.HALF_UP).doubleValue();
     }
 
-    private double convertImpulsesPerSecToCubicMetersPerHour(double impulses, long impLitPrice) {
+    private double convertImpulsesPerSecToCubicMetersPerHour(double impulses, double impLitPrice) {
         return round(3.6 * impulses / impLitPrice, 3);
-    }
-
-    private double countCalculationError(double counterVolume, double standardVolume) {
-        if (standardVolume < 0.0001) {
-            return 0.0;
-        }
-        double result = (counterVolume - standardVolume) / standardVolume * 100;
-        return round(result, 2);
     }
 }

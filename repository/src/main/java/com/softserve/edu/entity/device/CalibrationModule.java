@@ -36,7 +36,8 @@ public class CalibrationModule {
 
     private String telephone;
 
-    private String moduleType;
+    @Enumerated(EnumType.STRING)
+    private ModuleType moduleType;
 
     private String email;
 
@@ -56,7 +57,7 @@ public class CalibrationModule {
     public CalibrationModule(Device.DeviceType deviceType, String organizationCode,
                              String condDesignation, String serialNumber,
                              String employeeFullName, String telephone,
-                             String moduleType, String email, String calibrationType,
+                             ModuleType moduleType, String email, String calibrationType,
                              Date workDate) {
         this.deviceType = deviceType;
         this.organizationCode = organizationCode;
@@ -70,6 +71,15 @@ public class CalibrationModule {
         this.workDate = workDate;
     }
 
+    public CalibrationModule(String deviceType, String organizationCode,
+                             String condDesignation, String serialNumber,
+                             String employeeFullName, String telephone,
+                             String moduleType, String email, String calibrationType,
+                             Date workDate) {
+        this(Device.DeviceType.valueOf(deviceType), organizationCode, condDesignation, serialNumber,
+                employeeFullName, telephone, ModuleType.valueOf(moduleType), email, calibrationType, workDate);
+    }
+
     public void updateFields(CalibrationModule calibrationModule) {
         this.deviceType = calibrationModule.getDeviceType();
         this.organizationCode = calibrationModule.getOrganizationCode();
@@ -81,6 +91,11 @@ public class CalibrationModule {
         this.email = calibrationModule.getEmail();
         this.calibrationType = calibrationModule.getCalibrationType();
         this.workDate = calibrationModule.getWorkDate();
+    }
+
+    public enum ModuleType {
+        INSTALLATION_FIX,
+        INSTALLATION_PORT
     }
 
 }

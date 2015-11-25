@@ -72,7 +72,7 @@ angular
             getIfEmployeeStateVerificator: function(url) {
                 return getData('verifications/verificator/role');
             },
-            
+
         };
        
         function getData(url) {

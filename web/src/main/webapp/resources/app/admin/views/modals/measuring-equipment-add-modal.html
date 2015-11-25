@@ -10,13 +10,13 @@
             <div class="panel-heading">
                 {{'GENERAL_INFORMATION' | translate}}
             </div>
-            <div class="panel-body" for="deviceType">
-                <div class="form-group row">
+            <div class="panel-body">
+                <div class="form-group row" >
                     <label class="control-label col-md-4">
                         {{'SPHERE_OF_APPLICATION' | translate}}
                     </label>
 
-                    <div class="col-md-8">
+                    <div class="col-md-8" for="deviceType">
                         <ui-select style="display: block;" ng-model="addCalibrationModuleFormData.deviceType"
                                    name="deviceType" id="deviceType" theme="select2"
                                    search-enabled="false" required>
@@ -151,7 +151,8 @@
                     <div class="col-md-8">
                         <div class="input-group">
                             <span class="input-group-addon" id="basic-addon-code">+380</span>
-                            <input id="telephone" name="telephone" type="text"
+                            <input id="telephone" type="text"
+                                   name="telephone"
                                    class="form-control col-md-8 " ng-model="addCalibrationModuleFormData.telephone"
                                    placeholder="XXXXXXXXX" ng-pattern="PHONE_REGEX"
                                    popover="Введіть номер телефону"
@@ -186,7 +187,9 @@
                             </button>
                         </span>
 
-                            <input type="text" class="form-control date-picker" datepicker-popup id="workDate"
+                            <input type="text" class="form-control date-picker" datepicker-popup
+                                   id="workDate"
+                                   name="workDate"
                                    ng-model="addCalibrationModuleFormData.workDate"
                                    is-open="calendar.isOpen"
                                    min-date="minDate" max-date="maxDate"
@@ -293,8 +296,7 @@
         </div>
 
         <div class="form-group row row-buttons">
-            <button type="submit" class="btn btn-success col-md-2 col-sm-12 col-xs-12 col-lg-2"
-                    ng-click="onAddCalibrationModuleFormSubmit()">
+            <button type="submit" class="btn btn-success col-md-2 col-sm-12 col-xs-12 col-lg-2">
                 {{'ADD' | translate}}
             </button>
             <input type="reset" class="btn btn-warning col-md-3 col-sm-12 col-xs-12 col-lg-3"

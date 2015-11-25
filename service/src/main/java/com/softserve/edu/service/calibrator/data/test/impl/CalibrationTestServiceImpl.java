@@ -2,6 +2,7 @@ package com.softserve.edu.service.calibrator.data.test.impl;
 
 import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.service.calibrator.data.test.CalibrationTestDataService;
+import com.softserve.edu.service.tool.MailService;
 import org.apache.commons.codec.binary.Base64;
 import com.softserve.edu.device.test.data.DeviceTestData;
 import com.softserve.edu.entity.verification.calibration.CalibrationTest;
@@ -22,23 +23,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.imageio.ImageIO;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.*;
 
+import com.softserve.edu.common.Constants;
 
 @Service
 public class CalibrationTestServiceImpl implements CalibrationTestService {
 
     @Value("${photo.storage.local}")
     private String localStorage;
-
-    @PersistenceContext
-    private EntityManager em;
 
     @Autowired
     private CalibrationTestRepository testRepository;
@@ -48,39 +44,43 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
     private CalibrationTestDataRepository dataRepository;
     @Autowired
     private VerificationRepository verificationRepository;
+    @Autowired
+    MailService mailService;
 
     private Logger logger = Logger.getLogger(CalibrationTestServiceImpl.class);
 
     public long createNewTest(DeviceTestData deviceTestData, String verificationId) throws IOException {
         Verification verification = verificationRepository.findOne(verificationId);
-        CalibrationTest calibrationTest = new CalibrationTest(deviceTestData.getFileName(), deviceTestData.getInstallmentNumber(),
-                deviceTestData.getLatitude(), deviceTestData.getLongitude(), deviceTestData.getUnixTime(),
-                deviceTestData.getCurrentCounterNumber(), verification, deviceTestData.getInitialCapacity());
-        testRepository.save(calibrationTest);
-        String photo = deviceTestData.getTestPhoto();
-        byte[] bytesOfImage = Base64.decodeBase64(photo);
-        BufferedImage buffered = ImageIO.read(new ByteArrayInputStream(bytesOfImage));
-        String testPhoto = "mainPhoto" + calibrationTest.getId() + verificationId + ".jpg";
-        ImageIO.write(buffered, "jpg", new File(localStorage + "//" + testPhoto));
+        CalibrationTest calibrationTest = new CalibrationTest(deviceTestData.getFileName(),
+                deviceTestData.getInstallmentNumber(), deviceTestData.getLatitude(), deviceTestData.getLongitude(),
+                deviceTestData.getUnixTime(), deviceTestData.getCurrentCounterNumber(), verification,
+                deviceTestData.getInitialCapacity(), deviceTestData.getTemperature());
+
+        BufferedImage buffered = ImageIO.read(new ByteArrayInputStream(
+                Base64.decodeBase64(deviceTestData.getTestPhoto())));
+        String testPhoto = "mainPhoto." + Constants.IMAGE_TYPE;
+        String folderPath = localStorage + File.separator + verificationId;
+        String absolutePath = localStorage + File.separator + verificationId + File.separator + testPhoto;
+        File file = new File(folderPath);
+        file.mkdirs();
+        ImageIO.write(buffered, Constants.IMAGE_TYPE, new File(absolutePath));
         calibrationTest.setPhotoPath(testPhoto);
+
         testRepository.save(calibrationTest);
-        CalibrationTestData сalibrationTestData;
-        for (int testDataId = 1; testDataId <= 6; testDataId++) {
-             /*if there is no photo there is now test data */
-            if (deviceTestData.getBeginPhoto(testDataId).equals("")) {
-                continue;
-            } else {
-                сalibrationTestData = testDataService.createNewTestData(calibrationTest.getId(), deviceTestData, testDataId);
-                if (сalibrationTestData.getTestResult() == Verification.CalibrationTestResult.FAILED) {
+
+        for (int testDataId = 1; testDataId <= 6; testDataId++) { // BBI can not contain  more than 6 tests
+            if (!deviceTestData.getBeginPhoto(testDataId).equals("")) { // if there is no photo there is now test data
+                CalibrationTestData сalibrationTestData = testDataService.createNewTestData(calibrationTest.getId(),
+                        deviceTestData, testDataId);
+                if (сalibrationTestData.getTestResult().equals(Verification.CalibrationTestResult.FAILED)) {
                     calibrationTest.setTestResult(Verification.CalibrationTestResult.FAILED);
-                    testRepository.save(calibrationTest);
                 }
-                if (сalibrationTestData.getConsumptionStatus() == Verification.ConsumptionStatus.NOT_IN_THE_AREA) {
+                if (сalibrationTestData.getConsumptionStatus().equals(Verification.ConsumptionStatus.NOT_IN_THE_AREA)) {
                     calibrationTest.setConsumptionStatus(Verification.ConsumptionStatus.NOT_IN_THE_AREA);
-                    testRepository.save(calibrationTest);
                 }
             }
         }
+        testRepository.save(calibrationTest);
         verification.setStatus(Status.TEST_COMPLETED);
         verificationRepository.save(verification);
         return calibrationTest.getId();
@@ -112,7 +112,7 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
 
     @Override
     @Transactional
-    public CalibrationTest editTest(Long testId, String name, Integer capacity, Integer settingNumber,
+    public CalibrationTest editTest(Long testId, String name, String capacity, Integer settingNumber,
                                     Double latitude, Double longitude, Verification.ConsumptionStatus consumptionStatus, Verification.CalibrationTestResult testResult) {
         CalibrationTest calibrationTest = testRepository.findOne(testId);
         testResult = Verification.CalibrationTestResult.SUCCESS;
@@ -153,30 +153,54 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
     }
 
     @Override
-    public String getPhotoAsString(String photoPath) {
+    public String getPhotoAsString(String photoPath, CalibrationTest calibrationTest) {
         String photo = null;
         InputStream reader = null;
-        BufferedImage image = null;
         BufferedInputStream bufferedInputStream = null;
         try {
-            reader = new FileInputStream(localStorage+"/" + photoPath);
+            reader = new FileInputStream(localStorage + File.separator + calibrationTest.getVerification().getId()
+                    + File.separator + photoPath);
             bufferedInputStream = new BufferedInputStream(reader);
-            image = ImageIO.read(bufferedInputStream);
+            BufferedImage image = ImageIO.read(bufferedInputStream);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(image, "jpg", baos);
+            ImageIO.write(image, Constants.IMAGE_TYPE, baos);
             byte[] bytesOfImages = Base64.encodeBase64(baos.toByteArray());
             photo = new String(bytesOfImages);
         } catch (IOException e) {
             logger.error(e.getMessage());
+            logger.error(e); // for prevent critical issue "Either log or rethrow this exception"
         } finally {
             try {
-                bufferedInputStream.close();
-                reader.close();
+                if (bufferedInputStream != null) {
+                    bufferedInputStream.close();
+                }
+                if (reader != null) {
+                    reader.close();
+                }
             } catch (IOException e) {
                 logger.error(e.getMessage());
+                logger.error(e); // for prevent critical issue "Either log or rethrow this exception"
             }
         }
         return photo;
+    }
+
+    @Override
+    public Set<CalibrationTestData> getLatestTests(List<CalibrationTestData> rawListOfCalibrationTestData) {
+        Set<CalibrationTestData> setOfCalibrationTestData = new LinkedHashSet<>();
+        Integer position;
+        for (CalibrationTestData calibrationTestData : rawListOfCalibrationTestData ){
+            position = calibrationTestData.getTestPosition();
+            position++;
+            for (CalibrationTestData calibrationTestDataSearch : rawListOfCalibrationTestData) {
+                if (calibrationTestDataSearch.getTestPosition() == position) {
+                    calibrationTestData = calibrationTestDataSearch;
+                    position++;
+                }
+            }
+            setOfCalibrationTestData.add(calibrationTestData);
+        }
+        return setOfCalibrationTestData;
     }
 
     @Override
@@ -210,7 +234,7 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
 
     @Override
     @Transactional
-    public CalibrationTest createNewCalibrationTest(Long testId, String name, Integer capacity, Integer settingNumber,
+    public CalibrationTest createNewCalibrationTest(Long testId, String name, String capacity, Integer settingNumber,
                                                     Double latitude, Double longitude) {
         Verification.CalibrationTestResult testResult;
         CalibrationTest calibrationTest = testRepository.findOne(testId);
@@ -225,6 +249,27 @@ public class CalibrationTestServiceImpl implements CalibrationTestService {
         calibrationTest.setConsumptionStatus(Verification.ConsumptionStatus.IN_THE_AREA);
         calibrationTest.setTestResult(testResult);
         return calibrationTest;
+    }
+
+    @Override
+    @Transactional
+    public void updateTest(String verificationId,String status){
+        Verification verification = verificationRepository.findOne(verificationId);
+        String statusToSend;
+        Status statusVerification = Status.valueOf(status.toUpperCase());
+        if(!verification.getStatus().equals(statusVerification)) {
+            if(statusVerification.equals(Status.TEST_OK)){
+                statusToSend = "придатний";
+            }else {
+                statusToSend = "непридатний";
+            }
+            verification.setStatus(statusVerification);
+            String emailCustomer = verification.getClientData().getEmail();
+            String emailProvider = verification.getProviderEmployee().getEmail();
+            mailService.sendPassedTestMail(emailCustomer, verificationId, statusToSend);
+            mailService.sendPassedTestMail(emailProvider, verificationId, statusToSend);
+            verificationRepository.save(verification);
+        }
     }
 
 

@@ -322,36 +322,23 @@ angular
                 if ($scope.selectedValues.firstDeviceCount !== undefined) {
                     $scope.clientForm.firstDeviceCount.$invalid = false;
                 }
-                //if ($scope.selectedValues.firstSelectedDevice === undefined) {
-                //    $scope.clientForm.firstSelectedDevice.$invalid = true;
-                //    $scope.clientForm.firstDeviceCount.$invalid = true;
-                //}
-                //if ($scope.selectedValues.firstSelectedProvider === undefined) {
-                //    $scope.clientForm.firstDeviceCount.$invalid = true;
-                //}
+
                 /**
                  * Check second device selection group
                  */
                 if (($scope.selectedValues.secondDeviceCount !== undefined)) {
                     $scope.clientForm.secondDeviceCount.$invalid = false;
                 }
-                //if ($scope.selectedValues.secondSelectedDevice === undefined) {
-                //    $scope.clientForm.secondSelectedDevice.$invalid = true;
-                //    $scope.clientForm.secondDeviceCount.$invalid = true;
-                //}
-                //if ($scope.selectedValues.secondSelectedProvider === undefined) {
-                //    $scope.clientForm.secondDeviceCount.$invalid = true;
-                //}
+
+
+
                 /**
                  * Check street selection group
                  */
                 if (($scope.selectedValues.selectedStreetType !== undefined)) {
                     $scope.clientForm.streetType.$invalid = false;
                 }
-                //if ($scope.selectedValues.selectedStreet === undefined) {
-                //    $scope.clientForm.street.$invalid = true;
-                //    $scope.clientForm.streetType.$invalid = true;
-                //}
+
             };
 
             $scope.changeFlat = function () {

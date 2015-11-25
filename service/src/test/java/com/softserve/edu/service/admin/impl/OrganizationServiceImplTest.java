@@ -5,6 +5,7 @@ import com.softserve.edu.entity.catalogue.Locality;
 import com.softserve.edu.entity.device.Device;
 import com.softserve.edu.entity.device.Device.DeviceType;
 import com.softserve.edu.entity.enumeration.organization.OrganizationType;
+import com.softserve.edu.entity.organization.AdditionInfoOrganization;
 import com.softserve.edu.entity.organization.Organization;
 import com.softserve.edu.entity.organization.OrganizationEditHistory;
 import com.softserve.edu.entity.user.User;
@@ -17,6 +18,7 @@ import com.softserve.edu.service.provider.ProviderEmployeeService;
 import com.softserve.edu.service.tool.impl.MailServiceImpl;
 import com.softserve.edu.service.utils.ArchivalOrganizationsQueryConstructorAdmin;
 import com.softserve.edu.service.utils.ListToPageTransformer;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -116,8 +118,10 @@ public class OrganizationServiceImplTest {
         final Integer employeesCapacity = 13;
         final Integer maxProcessTime = 456;
         final Address address = new Address("Lviv", "Leva", "123", "123", "123", "123");
+        final Address addressRegistered = new Address("Lviv", "Leva", "123", "123", "123", "123");
         final Long[] localityIdList = {1L};
         final String username = "eric123";
+        final AdditionInfoOrganization additionInfoOrganization = new AdditionInfoOrganization("123", "123", "123", 1288323623006L);
         String firstName = "firstName";
         String lastName = "lastName";
         String middleName = "middleName";
@@ -127,9 +131,10 @@ public class OrganizationServiceImplTest {
 
         organizationService.addOrganizationWithAdmin(name, email, phone, types, counters, employeesCapacity,
                 maxProcessTime, firstName, lastName, middleName,
-                username, address, adminName, localityIdList);
+                username, address, addressRegistered, additionInfoOrganization, adminName, localityIdList);
 
-        verify(organizationRepository).save(new Organization(name, email, phone, employeesCapacity, maxProcessTime, address));
+        verify(organizationRepository).save(new Organization(name, email, phone, employeesCapacity, maxProcessTime,
+                address, addressRegistered, additionInfoOrganization));
     }
 
     @Test

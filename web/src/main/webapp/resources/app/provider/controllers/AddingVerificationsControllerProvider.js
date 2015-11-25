@@ -346,6 +346,9 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
         $scope.firstCalendar.isOpen = false;
         $scope.secondCalendar = {};
         $scope.secondCalendar.isOpen = false;
+        $scope.thirdCalendar = {};
+        $scope.thirdCalendar.isOpen = false;
+
 
         $scope.open1 = function ($event) {
             $event.preventDefault();
@@ -357,6 +360,18 @@ angular.module('employeeModule').controller('AddingVerificationsControllerProvid
             $event.preventDefault();
             $event.stopPropagation();
             $scope.secondCalendar.isOpen = true;
+        };
+
+        $scope.open3 = function ($event) {
+            $event.preventDefault();
+            $event.stopPropagation();
+            $scope.thirdCalendar.isOpen = true;
+        };
+
+        $scope.open4 = function ($event) {
+            $event.preventDefault();
+            $event.stopPropagation();
+            $scope.calendar.isOpen = true;
         };
 
         moment.locale('uk');

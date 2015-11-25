@@ -6,6 +6,7 @@ public class VerificationUpdateDTO {
 
 	private List<String> idsOfVerifications;
 	private Long organizationId;
+	private String message;
 
 	public List<String> getIdsOfVerifications() {
 		return idsOfVerifications;
@@ -21,5 +22,14 @@ public class VerificationUpdateDTO {
 
 	public void setOrganizationId(Long organizationId) {
 		this.organizationId = organizationId;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public String getMessage()
+	{
+		return this.message;
 	}
 }

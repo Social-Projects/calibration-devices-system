@@ -128,9 +128,9 @@ angular
                 try{
                     if ($scope.calibrationTask.place==null) {
                         return true;
-                    } else if ($scope.calibrationTask.place == 'stationary_station') {
+                    } else if ($scope.calibrationTask.place == 'INSTALLATION_FIX') {
                         return false;
-                    } else if ($scope.calibrationTask.place == 'stationary_station' && $scope.calibrationTask.counterStatus == 'not_removed'){
+                    } else if ($scope.calibrationTask.place == 'INSTALLATION_FIX' && $scope.calibrationTask.counterStatus == 'not_removed'){
                         return false;
                     } else {
                         return true;
@@ -157,9 +157,9 @@ angular
                 try{
                     if (($scope.calibrationTask.place==null) && ($scope.calibrationTask.counterStatus==null)) {
                         return true;
-                    } else if ($scope.calibrationTask.place == 'stationary_station' && $scope.calibrationTask.counterStatus == 'not_removed') {
+                    } else if ($scope.calibrationTask.place == 'INSTALLATION_FIX' && $scope.calibrationTask.counterStatus == 'not_removed') {
                         return false;
-                    } else if ($scope.calibrationTask.place == 'mobile_station'){
+                    } else if ($scope.calibrationTask.place == 'INSTALLATION_PORT'){
                         $scope.calibrationTask.counterStatus = '';
                         return false;
                     } else {

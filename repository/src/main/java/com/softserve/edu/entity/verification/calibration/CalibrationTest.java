@@ -28,10 +28,11 @@ public class CalibrationTest {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateTest;
     private String counterNumber;
-    private Integer capacity;
+    private String capacity;
     private Integer settingNumber;
     private Double latitude;
     private Double longitude;
+    private Integer temperature;
 
     @Enumerated(EnumType.STRING)
     private Verification.ConsumptionStatus consumptionStatus;
@@ -59,7 +60,7 @@ public class CalibrationTest {
 
     public CalibrationTest(String name, Integer settingNumber, Double latitude,
                            Double longitude, Long unixTime, String counterNumber,
-                           Verification verification, Integer capacity) {
+                           Verification verification, String capacity, Integer temperature) {
         this.name = name;
         this.dateTest = new Date(unixTime);
         this.capacity = capacity;
@@ -70,5 +71,6 @@ public class CalibrationTest {
         this.consumptionStatus = Verification.ConsumptionStatus.IN_THE_AREA;
         this.testResult = Verification.CalibrationTestResult.SUCCESS;
         this.verification = verification;
+        this.temperature = temperature;
     }
 }

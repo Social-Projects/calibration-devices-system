@@ -40,9 +40,69 @@ angular
                 });
             };
 
-            $scope.parseBbiFile = function(data) {
+            function convectorStatus(consumptionStatus,flag) {
+               if(flag) {
+                   if (consumptionStatus === "IN_THE_AREA") {
+                       consumptionStatus = "В зоні";
+                   } else if (consumptionStatus === "NOT_IN_THE_AREA") {
+                       consumptionStatus = "Не в зоні";
+                   }
+               } else{
+                   if (consumptionStatus === "В зоні") {
+                       consumptionStatus = "IN_THE_AREA";
+                   } else if (consumptionStatus === "Не в зоні") {
+                       consumptionStatus = "NOT_IN_THE_AREA";
+                   }
+               }
+                return consumptionStatus;
+            }
+
+            function convectorTestResult(testResult, flag) {
+                if (flag) {
+                    if (testResult === "SUCCESS") {
+                        testResult = "Успішний";
+                    } else if (testResult === "FAILED") {
+                        testResult = "Невдалий";
+                    } else if(testResult === "RAW") {
+                        testResult = "Необроблений";
+                    }
+                }else {
+                    if (testResult=== "Успішний") {
+                        testResult = "SUCCESS";
+                    } else if (testResult === "Невдалий") {
+                        testResult = "FAILED";
+                    } else if(testResult === "Необроблений") {
+                        testResult= "RAW";
+                    }
+                }
+                return testResult;
+            }
+
+            function convectorForListData (listTestData,flag){
+                 var list = new Array();
+                 for (var i = 0; i < listTestData.length; i++) {
+                     var dataTest = listTestData[i];
+                     dataTest.consumptionStatus = convectorStatus(dataTest.consumptionStatus, flag);
+                     dataTest.testResult = convectorTestResult(dataTest.testResult, flag);
+                     list[i]=dataTest;
+                 }
+                 return list;
+            }
+
+            $scope.parseBbiFile = function (data) {
                 $scope.fileLoaded = true;
+                data.consumptionStatus = convectorStatus(data.consumptionStatus, true);
+                data.testResult = convectorTestResult(data.testResult, true);
+                data.listTestData = convectorForListData(data.listTestData,true)
                 $scope.TestForm = data;
+                for (var i = 0; i < $scope.statusData.length; i++) {
+                    if ($scope.statusData[i].id === data.status) {
+                        $scope.selectedStatus = {
+                            label: $scope.statusData[i].label,
+                            id: $scope.statusData[i].id
+                        };
+                    }
+                }
                 var date = $scope.TestForm.testDate;
                 $scope.TestForm.testDate = moment(date).utcOffset(0).format("DD.MM.YYYY HH:mm");
                 $scope.TestForm.testPhoto = "data:image/png;base64," + $scope.TestForm.testPhoto;
@@ -88,29 +148,31 @@ angular
             }
 
             $scope.selectedStatus = {
-                name: null
+                label: null
             }
             $scope.statusData = [
-                {id: 'REJECTED', label: null},
-                {id: 'SENT_TO_VERIFICATOR', label: null},
                 {id: 'TEST_OK', label: null},
                 {id: 'TEST_NOK', label: null}
             ];
 
+            $scope.setStatus = function (status) {
+                $scope.selectedStatus = {
+                    label: status.label,
+                    id: status.id
+                };
+            };
+
             $scope.setTypeDataLanguage = function () {
                 var lang = $translate.use();
                 if (lang === 'ukr') {
-                    $scope.statusData[0].label = 'Відхилена';
-                    $scope.statusData[1].label = 'Предявлено повірнику';
-                    $scope.statusData[2].label = 'Перевірено придатний';
-                    $scope.statusData[3].label = 'Перевірено непридатний';
+                    $scope.statusData[0].label = 'придатний';
+                    $scope.statusData[1].label = 'непридатний';
                 } else if (lang === 'eng') {
-                    $scope.statusData[0].label = 'Rejected';
-                    $scope.statusData[1].label = 'Sent to verificator';
-                    $scope.statusData[2].label = 'Tested OK';
-                    $scope.statusData[3].label = 'Tested NOK';
+                    $scope.statusData[0].label = 'Tested OK';
+                    $scope.statusData[1].label = 'Tested NOK';
                 }
             };
+
 
             $scope.setTypeDataLanguage();
 
@@ -120,34 +182,58 @@ angular
                 getCalibrationTests();
 
             }
+            function retranslater() {
+                //convectorTestResult($scope.TestForm,false);
+                protocol = {
+                    fileName:$scope.TestForm.fileName,
+                    counterNumber:$scope.TestForm.counterNumber,
+                    temperature:$scope.TestForm.temperature,
+                    installmentNumber:$scope.TestForm.installmentNumber,
+                    latitude:$scope.TestForm.latitude,
+                    longitude:$scope.TestForm.longitude,
+                    testResult:convectorTestResult($scope.TestForm.testResult,false),
+                    status:$scope.selectedStatus.id,
+                    listTestData:convectorForListData($scope.TestForm.listTestData,false)
+                    }
+            };
+
+
+
+            $scope.closeForm = function(){
+                window.history.back();
+            }
 
             /**
-             * Saves new test from the form in database.
-             * If everything is ok then resets the test
-             * form and updates table with tests.
+             * update test from the form in database.
              */
+                /*$scope.generalForms={testForm:$scope.TestForm, smallForm: $scope.TestDataFormData};
+                  $log.debug($scope.generalForms);
+                .updateCalibrationTest($scope.TestForm, $scope.testId)*/
+
             $scope.updateCalibrationTest = function () {
-                $scope.generalForms={testForm:$scope.TestForm, smallForm: $scope.TestDataFormData};
-                $log.debug($scope.generalForms);
+                        retranslater();
                         calibrationTestServiceCalibrator
-                            .updateCalibrationTest($scope.generalForms, $scope.testId)
-                            .then(function (data) {
-                                if (data == 201) {
+                            .updateCalibrationTest(protocol,$scope.testId)
+                            .then(function (status) {
+                                if (status == 201) {
                                     $rootScope.onTableHandling();
                                 }
+                                if(status==200){
+                                    $modal.open({
+                                        animation: true,
+                                        templateUrl: 'resources/app/calibrator/views/modals/calibration-test-edited-success.html',
+                                        controller: function ($modalInstance) {
+                                            this.ok = function () {
+                                                $modalInstance.close();
+                                                window.history.back();
+                                            }
+                                        },
+                                        controllerAs: 'successController',
+                                        size: 'md'
+                                    });
+
+                                }
                             });
-                            $modal.open({
-                                animation: true,
-                                templateUrl: 'resources/app/calibrator/views/modals/calibration-test-adding-success.html',
-                                controller: function ($modalInstance) {
-                                    this.ok = function () {
-                                        $scope.resetTestForm();
-                                        $modalInstance.close();
-                                    }
-                                },
-                                controllerAs: 'successController',
-                                size: 'md'
-                });
             }
 
         }]);

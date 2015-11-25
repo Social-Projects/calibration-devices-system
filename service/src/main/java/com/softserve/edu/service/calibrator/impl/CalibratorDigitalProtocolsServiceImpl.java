@@ -6,7 +6,6 @@ import com.softserve.edu.entity.verification.Verification;
 import com.softserve.edu.repository.VerificationRepository;
 import com.softserve.edu.service.calibrator.CalibratorDigitalProtocolsService;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +22,7 @@ import java.util.List;
  * @author Veronika 11.11.2015
  */
 @Service
-public class CalibratorDigitalProtocolsServiceImpl implements CalibratorDigitalProtocolsService{
+public class CalibratorDigitalProtocolsServiceImpl implements CalibratorDigitalProtocolsService {
 
     @Autowired
     private VerificationRepository verificationRepository;
@@ -31,15 +30,14 @@ public class CalibratorDigitalProtocolsServiceImpl implements CalibratorDigitalP
     @PersistenceContext
     private EntityManager em;
 
-    private Logger logger = Logger.getLogger(CalibratorPlaningTaskServiceImpl.class);
-
-    public Long countByCalibratorEmployee_usernameAndStatus (User calibratorEmployee, Status status) {
+    public Long countByCalibratorEmployee_usernameAndStatus(User calibratorEmployee, Status status) {
         return verificationRepository.countByCalibratorEmployee_usernameAndStatus(calibratorEmployee.getUsername(), status);
     }
 
     /**
      * Find and return from database Verifications by user and status
      * is used for table with protocols
+     *
      * @param calibratorEmployee - user
      * @param pageNumber
      * @param itemsPerPage
@@ -54,7 +52,6 @@ public class CalibratorDigitalProtocolsServiceImpl implements CalibratorDigitalP
         CriteriaQuery<Verification> cq = cb.createQuery(Verification.class);
         Root<Verification> verifications = cq.from(Verification.class);
 
-        cq.select(verifications);
         cq.where(cb.and(cb.equal(verifications.get("calibratorEmployee"), calibratorEmployee),
                 cb.equal(verifications.get("status"), status)));
 

@@ -174,6 +174,8 @@ public class StateVerificatorController {
     public void rejectVerification(@RequestBody VerificationUpdateDTO verificationUpdateDTO) {
         for (String verificationId : verificationUpdateDTO.getIdsOfVerifications()) {
             Verification verification = verificationService.findById(verificationId);
+            verification.setRejectedMessage(verificationUpdateDTO.getMessage());
+            verificationService.saveVerification(verification);
             Organization calibrator = calibratorService.findById(verification.getCalibrator().getId());
             verificationService.sendVerificationTo(verificationId, calibrator, Status.IN_PROGRESS);
         }
@@ -250,7 +252,7 @@ public class StateVerificatorController {
                 verification.getExpirationDate(), verification.getStatus(), verification.getCalibrator(),
                 verification.getCalibratorEmployee(), verification.getDevice(), verification.getProvider(),
                 verification.getProviderEmployee(), verification.getStateVerificator(),
-                verification.getStateVerificatorEmployee()
+                verification.getStateVerificatorEmployee(), verification.getRejectedMessage()
         );
     }
 

@@ -10,11 +10,14 @@ import java.util.UUID;
 import com.softserve.edu.service.storage.FileOperations;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class FileOperationsImpl implements FileOperations{
+
+    static Logger logger = Logger.getLogger(FileOperationsImpl.class);
 
     @Value("${photo.storage.local}")
     private String localStorage;
@@ -31,7 +34,7 @@ public class FileOperationsImpl implements FileOperations{
             FileUtils.copyInputStreamToFile(stream, new File(localStorage + relativeFolder
                     + fileName));
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.info(e);
         }
         return relativeFolder + fileName;
     }

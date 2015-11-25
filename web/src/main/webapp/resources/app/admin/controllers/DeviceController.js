@@ -162,8 +162,12 @@ angular
             $scope.deleteDeviceCategory = function (id) {
                 $rootScope.deviceCategoryId = id;
                 console.log($rootScope.deviceCategoryId);
-                devicesService.deleteDeviceCategory(id).then(function () {
-                    toaster.pop('error', $filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_DELETED_CATEGORY'));
+                devicesService.deleteDeviceCategory(id).then(function (status) {
+                    if (status == 409){
+                        toaster.pop('info', $filter('translate')('INFORMATION'), $filter('translate')('ERROR_DELETED_CATEGORY'));
+                    } else {
+                        toaster.pop('info', $filter('translate')('INFORMATION'), $filter('translate')('SUCCESSFUL_DELETED_CATEGORY'));
+                    }
                 });
                 $timeout(function() {
                     console.log('delete with timeout');

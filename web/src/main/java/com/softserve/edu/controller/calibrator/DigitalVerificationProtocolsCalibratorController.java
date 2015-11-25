@@ -4,7 +4,6 @@ import com.softserve.edu.controller.calibrator.util.ProtocolDTOTransformer;
 import com.softserve.edu.dto.VerificationUpdateDTO;
 import com.softserve.edu.dto.admin.OrganizationDTO;
 import com.softserve.edu.dto.calibrator.ProtocolDTO;
-import com.softserve.edu.entity.enumeration.organization.OrganizationType;
 import com.softserve.edu.entity.enumeration.verification.Status;
 import com.softserve.edu.dto.NewVerificationsFilterSearch;
 import com.softserve.edu.dto.PageDTO;
@@ -76,15 +75,24 @@ public class DigitalVerificationProtocolsCalibratorController {
 
     }
 
+    /**
+     * Change status for verification when it is sent to verificator
+     * @param verificationUpdateDTO
+     */
     @RequestMapping(value="send", method = RequestMethod.PUT)
     public void updateVerification(@RequestBody VerificationUpdateDTO verificationUpdateDTO) {
         for(String verificationId : verificationUpdateDTO.getIdsOfVerifications()) {
-            Long idVerificator = verificationUpdateDTO.getOrganizationId();// TODO: ask about verificatorOrganization
-            Organization verificator = stateVerificatorService.findById(idVerificator);//TODO: write in StateVerificatorServiceImpl method findById() which simply calls repository
+            Long idVerificator = verificationUpdateDTO.getOrganizationId();
+            Organization verificator = stateVerificatorService.findById(idVerificator);
             verificationService.sendVerificationTo(verificationId, verificator, Status.SENT_TO_VERIFICATOR);
         }
     }
 
+    /**
+     * Get verificators that has agreement with this calibrator
+     * @param user
+     * @return
+     */
    @RequestMapping(value = "verificators", method = RequestMethod.GET)
    public Set<OrganizationDTO> getVerification(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
        //todo agreement

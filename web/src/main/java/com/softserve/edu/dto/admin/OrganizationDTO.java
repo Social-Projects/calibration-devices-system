@@ -12,6 +12,11 @@ public class OrganizationDTO {
     private Integer employeesCapacity;
     private Integer maxProcessTime;
 
+    private String codeEDRPOU;
+    private String subordination;
+    private String certificateNumrAuthoriz;
+    private Long certificateDate;
+
     private String firstName;
     private String lastName;
     private String middleName;
@@ -26,6 +31,14 @@ public class OrganizationDTO {
     private String building;
     private String flat;
 
+
+    private String regionRegistered;
+    private String localityRegistered;
+    private String districtRegistered;
+    private String streetRegistered;
+    private String buildingRegistered;
+    private String flatRegistered;
+
     //todo change to list
     private Long[] serviceAreas;
 
@@ -33,7 +46,9 @@ public class OrganizationDTO {
     }
 
 
-    public OrganizationDTO(Long id, String name, String email, String phone, List<String> types, List<String> counters, Integer employeesCapacity, Integer maxProcessTime, String region, String district, String locality, String street, String building, String flat) {
+    public OrganizationDTO(Long id, String name, String email, String phone, List<String> types,
+                           List<String> counters, Integer employeesCapacity, Integer maxProcessTime, String region,
+                           String district, String locality, String street, String building, String flat) {
         this.id = id;
         this.email = email;
         this.name = name;
@@ -215,6 +230,46 @@ public class OrganizationDTO {
         this.maxProcessTime = maxProcessTime;
     }
 
+    public String getRegionRegistered() { return regionRegistered; }
+
+    public void setRegionRegistered(String regionRegistered) { this.regionRegistered = regionRegistered; }
+
+    public String getLocalityRegistered() { return localityRegistered; }
+
+    public void setLocalityRegistered(String localityRegistered) { this.localityRegistered = localityRegistered; }
+
+    public String getDistrictRegistered() { return districtRegistered; }
+
+    public void setDistrictRegistered(String districtRegistered) { this.districtRegistered = districtRegistered; }
+
+    public String getStreetRegistered() { return streetRegistered; }
+
+    public void setStreetRegistered(String streetRegistered) { this.streetRegistered = streetRegistered; }
+
+    public String getBuildingRegistered() { return buildingRegistered; }
+
+    public void setBuildingRegistered(String buildingRegistered) { this.buildingRegistered = buildingRegistered; }
+
+    public String getFlatRegistered() { return flatRegistered; }
+
+    public void setFlatRegistered(String flatRegistered) { this.flatRegistered = flatRegistered; }
+
+    public String getCodeEDRPOU() { return codeEDRPOU; }
+
+    public void setCodeEDRPOU(String codeEDRPOU) { this.codeEDRPOU = codeEDRPOU; }
+
+    public String getSubordination() { return subordination; }
+
+    public void setSubordination(String subordination) { this.subordination = subordination; }
+
+    public String getCertificateNumrAuthoriz() { return certificateNumrAuthoriz; }
+
+    public void setCertificateNumrAuthoriz(String certificateNumrAuthoriz) {
+        this.certificateNumrAuthoriz = certificateNumrAuthoriz; }
+
+    public Long getCertificateDate() { return certificateDate; }
+
+    public void setCertificateDate(Long certificateDate) { this.certificateDate = certificateDate; }
 
     /**
      * Constructor with localityIdList
