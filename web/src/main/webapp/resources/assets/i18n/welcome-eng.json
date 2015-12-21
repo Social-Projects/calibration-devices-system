@@ -589,6 +589,7 @@
   "DOWNLOAD_UNFITNESS_CERTIFICATE_IN_DOCX" : "Download Unfitness certificate in 'docx'",
   "DOWNLOAD_VERIFICATION_CERTIFICATE_IN_PDF" : "Download Verification certificate in 'pdf'",
   "DOWNLOAD_UNFITNESS_CERTIFICATE_IN_PDF" : "Download Unfitness certificate in 'docx'",
+  "DOWNLOAD_FILE_IN_DOC" : "Download file in 'docx' format",
   "EDIT_DOCUMENT" : "Edit document",
   "NO_VERIFICATIONS_CHECKED" : "Choose verifications for task creation",
   "TASK_FOR_STATION_CREATED" : "Task for calibration module was successfully created",
