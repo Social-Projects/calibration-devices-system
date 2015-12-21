@@ -317,7 +317,7 @@ angular
             var setAllSelected = function (value) {
                 angular.forEach($scope.allVerifications, function (verification) {
                     verification.selected = value;
-                    if(verification.providerEmployee) {
+                    if (verification.providerEmployee) {
                         $scope.resolveVerificationId(verification.id);
                     }
                 });
