@@ -24,7 +24,6 @@
                     <div class="col-md-8">
                         <input id="lastName" name="lastName" class="form-control"
                                type="text" ng-model="formData.lastName"
-
                                popover="{{'ALPHABETIC_INFO' | translate}}"
                                popover-trigger="focus" popover-placement="right"
                                ng-pattern="FIRST_LAST_NAME_REGEX" required> <span
@@ -99,10 +98,10 @@
                                ng-pattern="EMAIL_REGEX" required> <span
                             class="form-control-feedback glyphicon  form-horizontal glyphicon glyphicon-ok-sign"></span>
 
-                        <p class="help-block" ng-if="clientForm.email.$error.email">
+                        <!--<p class="help-block" ng-if="clientForm.email.$error.email">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                             {{'EMAIL_ERROR' | translate}}<i>example@gmail.com</i>
-                        </p>
+                        </p>-->
 
                         <p class="help-block" ng-if="clientForm.email.$error.pattern">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
