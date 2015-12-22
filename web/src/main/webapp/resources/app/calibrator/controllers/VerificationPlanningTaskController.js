@@ -54,7 +54,7 @@ angular
                     //copy of original daterange
                     $scope.defaultDate = angular.copy($scope.myDatePicker.pickerDate);
                 }
-                moment.locale('uk'); //setting locale for momentjs library (to get monday as first day of the week in ranges)
+                moment.locale('uk'); //setting locale for moment js library (to get monday as first day of the week in ranges)
                 $scope.opts = {
                     format: 'DD-MM-YYYY',
                     showDropdowns: true,

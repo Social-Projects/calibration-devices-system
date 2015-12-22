@@ -636,6 +636,5 @@
   "SELECT_PARAMETER":"Please, select parameter",
   "INPUT_VALUE":"Please, input value",
   "SELECT_VALUE":"Please, select value",
-  "DELETE_REASON_CONFIRM" : "DELETE REASON?"
-
+  "DELETE_REASON_CONFIRM" : "DELETE REASON?",
 }
