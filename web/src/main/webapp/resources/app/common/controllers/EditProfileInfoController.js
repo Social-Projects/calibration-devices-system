@@ -70,7 +70,7 @@ angular
                             $scope.closeModal();
                             $modal.open({
                                 animation: true,
-                                templateUrl: 'resources/app/provider/views/modals/success-editing.html',
+                                templateUrl: 'resources/app/provider/views/modals/employee-editing-success.html',
                                 controller: function ($modalInstance) {
                                     this.ok = function () {
                                         $modalInstance.close();
