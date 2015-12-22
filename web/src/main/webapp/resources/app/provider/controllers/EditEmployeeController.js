@@ -1,7 +1,7 @@
 angular
     .module('employeeModule')
     .controller('EditEmployeeController', ['$rootScope', '$scope', '$modalInstance', '$log', '$modal',
-        '$timeout', '$state', '$http', 'UserService', 'toaster', '$filter',
+        '$timeout', '$state', '$http', 'UserService', 'toaster', '$filter', 'success-editing',
 
         function ($rootScope, $scope, $modalInstance, $log, $modal, $timeout, $state, $http, userService, toaster, $filter) {
             var organizationTypeProvider = false;

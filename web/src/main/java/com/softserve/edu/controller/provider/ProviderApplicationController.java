@@ -132,13 +132,14 @@ public class ProviderApplicationController {
     }
 
     /**
-     *Save verification in database without sending to calibrator (without calibrator id)
+     * Save verification in database without sending to calibrator (without calibrator id)
+     *
      * @param verificationDTO
      * @param employeeUser
      */
     @RequestMapping(value = "save", method = RequestMethod.POST)
     public String saveInitiateVerification(@RequestBody OrganizationStageVerificationDTO verificationDTO,
-                                         @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
+                                           @AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails employeeUser) {
         ClientData clientData = new ClientData(
                 verificationDTO.getFirstName(),
                 verificationDTO.getLastName(),
@@ -212,7 +213,7 @@ public class ProviderApplicationController {
      * get all counter symbols from table counter_type
      */
     @RequestMapping(value = "symbols", method = RequestMethod.GET)
-    public List<CounterTypeDTO> findAllSymbols(){
+    public List<CounterTypeDTO> findAllSymbols() {
 
         return CounterTypeDTOTransformer.toDtofromList(providerService.findAllSymbols());
     }
