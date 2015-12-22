@@ -83,7 +83,7 @@
                                 <div ui-sref="profile-info" class="link item middle center aligned">
                                     <p translate="PROFILE"></p>
                                 </div>
-                                <div class="link item middle center aligned">
+                                <div class="link item middle center aligned" ui-sref="settings">
                                     <p translate="SETTINGS"></p>
                                 </div>
                                 <div ng-click="logout()" class="link item middle center aligned">
@@ -130,8 +130,6 @@
 
                     <li ng-show = "$root.isSuperAdmin" ui-sref-active="active"><a ui-sref="sys-admins"><i
                             class="fa fa-user-secret"></i> <span translate="SYS_ADMINS"></span></a></li>
-
-
 
                     </ul>
 
