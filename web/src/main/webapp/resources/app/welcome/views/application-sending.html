@@ -24,7 +24,6 @@
                     <div class="col-md-8">
                         <input id="lastName" name="lastName" class="form-control"
                                type="text" ng-model="formData.lastName"
-
                                popover="{{'ALPHABETIC_INFO' | translate}}"
                                popover-trigger="focus" popover-placement="right"
                                ng-pattern="FIRST_LAST_NAME_REGEX" required> <span
@@ -64,7 +63,6 @@
                         </p>
                     </div>
                 </div>
-
                 <div class="form-group" show-errors>
                     <label for="middleName" class="col-md-2 control-label">
                         {{'MIDDLE_NAME' | translate}} </label>
@@ -95,14 +93,15 @@
 
                     <div class="col-md-8">
                         <input id="email" name="email" type="email" class="form-control"
-                               ng-model="formData.email" placeholder="example@gmail.com"
-                               ng-pattern="EMAIL_REGEX" required> <span
-                            class="form-control-feedback glyphicon  form-horizontal glyphicon glyphicon-ok-sign"></span>
+                               ng-model="formData.email1" placeholder="example@gmail.com"
+                               ng-pattern="EMAIL_REGEX" required>
+                        <span class="form-control-feedback glyphicon form-horizontal glyphicon glyphicon-ok-sign">
+                        </span>
 
-                        <p class="help-block" ng-if="clientForm.email.$error.email">
+                        <!--<p class="help-block" ng-if="clientForm.email.$error.email">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
                             {{'EMAIL_ERROR' | translate}}<i>example@gmail.com</i>
-                        </p>
+                        </p>-->
 
                         <p class="help-block" ng-if="clientForm.email.$error.pattern">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
@@ -117,36 +116,31 @@
                 </div>
                 <div class="form-group" show-errors>
                     <label for="phoneNumber" class="col-md-2 control-label">
-                        {{'PHONE_NUMBER' | translate}} </label>
+                        {{'PHONE_NUMBER' | translate}}
+                    </label>
 
                     <div class="col-md-8">
-                        <div>
-                            <div class="input-group">
-                                <span class="input-group-addon">+380</span>
-                                <input id="phoneNumber" name="phoneNumber" type="tel"
-                                       class="form-control col-md-8 " ng-model="formData.phone"
-                                       placeholder="XXXXXXXXX" ng-pattern="PHONE_REGEX" required>
-
-                                <div class="input-group-addon btn btn-default btn-circle"
-                                     ng-click="checkboxModel = !checkboxModel">
-                                    <i class="glyphicon glyphicon-plus"></i>
-                                </div>
-
+                        <div class="input-group">
+                            <span class="input-group-addon">+380</span>
+                            <input id="phoneNumber" name="phoneNumber" type="tel"
+                                   class="form-control col-md-8 " ng-model="formData.phone"
+                                   placeholder="XXXXXXXXX" ng-pattern="PHONE_REGEX" required>
+                            <div class="input-group-addon btn btn-default btn-circle"
+                                 ng-click="checkboxModel = !checkboxModel">
+                                <i class="glyphicon glyphicon-plus"></i>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <p class="help-block col-md-8 col-md-offset-2"
-                           ng-if="clientForm.phoneNumber.$error.pattern">
-                            <span class="glyphicon glyphicon-exclamation-sign"></span>
-                            {{'PHONE_NUMBER_ERROR' | translate}}</p>
 
-                        <p class="help-block col-md-8 col-md-offset-2"
-                           ng-if="clientForm.email.$error.required">
-                            <span class="glyphicon glyphicon-exclamation-sign"></span>
-                            {{'REQUIRED' | translate}}
-                        </p>
                     </div>
+                    <p class="help-block col-md-8 col-md-offset-2"
+                       ng-if="clientForm.phoneNumber.$error.pattern">
+                        <span class="glyphicon glyphicon-exclamation-sign"></span>
+                        {{'PHONE_NUMBER_ERROR' | translate}}</p>
+                    <p class="help-block col-md-8 col-md-offset-2"
+                       ng-if="clientForm.phoneNumber.$error.required">
+                        <span class="glyphicon glyphicon-exclamation-sign"></span>
+                        {{'REQUIRED' | translate}}
+                    </p>
                 </div>
                 <div class="form-group" show-errors ng-show="checkboxModel">
                     <label for="phoneNumberSecond" class="col-md-2 control-label">
@@ -281,7 +275,7 @@
                         {{'STREET' | translate}} </label>
 
                     <div class="col-md-8">
-                        <div class="pull-left col-lg-3" id="typeStreet">
+                        <div class="pull-left col-xs-3" id="typeStreet">
                             <ui-select class="form-control" type="text" theme="select2"
                                        ng-model="selectedValues.selectedStreetType"
                                        ng-disabled="!selectedValues.selectedIndex"
@@ -297,7 +291,7 @@
 
 
                         </div>
-                        <div class="col-md-9" id="streetBox"
+                        <div class="col-xs-9" id="streetBox"
                              ng-class="{'has-success' : selectedValues.selectedStreet  && selectedValues.selectedIndex,
                                         'has-error' : !selectedValues.selectedStreet &&  clientForm.street.$dirty && selectedValues.selectedIndex}">
                             <input name="street" class="form-control"
@@ -354,7 +348,6 @@
                         </p>
                     </div>
                 </div>
-
                 <div class="form-group" show-errors ng-hide="defaultValue.privateHouse">
                     <label for="flat" class="col-md-2 control-label">{{'FLAT' | translate}}</label>
 
@@ -383,7 +376,7 @@
                         {{'COUNTER_CATEGORY' | translate}} </label>
 
                     <div class="col-md-8 ">
-                        <div class="pull-left col-md-2" id="counterNumber">
+                        <div class="pull-left col-xs-2" id="counterNumber">
                             <ui-select class="form-control" type="text" theme="select2"
                                        ng-model="selectedValues.firstDeviceCount"
                                        search-enabled="false"
@@ -397,7 +390,7 @@
                                 </ui-select-choices>
                             </ui-select>
                         </div>
-                        <div class="col-md-3" id="deviceBox">
+                        <div class="col-xs-3" id="deviceBox">
                             <ui-select class="form-control" type="text" theme="select2"
                                        ng-model="selectedValues.firstSelectedDeviceType"
                                        search-enabled="false"
@@ -414,7 +407,7 @@
                             </ui-select>
 
                         </div>
-                        <div class="col-md-7 input-group pull-right" id="deviceBox">
+                        <div class="col-xs-7 input-group pull-right" id="deviceBox">
                             <ui-select class="form-control" type="text" theme="select2"
                                        ng-model="selectedValues.firstSelectedProvider"
                                        search-enable="false"
@@ -464,7 +457,7 @@
                             {{'COUNTER_CATEGORY' | translate}} </label>
 
                         <div class="col-md-8 ">
-                            <div class="pull-left col-md-2" id="counterNumber">
+                            <div class="pull-left col-xs-2" id="counterNumber">
                                 <ui-select class="form-control" type="text" theme="select2"
                                            ng-required="isSecondDevice"
                                            ng-model="selectedValues.secondDeviceCount"
@@ -479,7 +472,7 @@
                                     </ui-select-choices>
                                 </ui-select>
                             </div>
-                            <div class="col-md-3" id="deviceBox">
+                            <div class="col-xs-3" id="deviceBox">
                                 <ui-select class="form-control" type="text" theme="select2"
                                            ng-model="selectedValues.secondSelectedDeviceType"
                                            search-enabled="false"
@@ -502,7 +495,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-7 input-group pull-right" id="deviceBox">
+                            <div class="col-xs-7 input-group pull-right" id="deviceBox">
                                 <ui-select class="form-control" type="text" theme="select2"
                                            ng-model="selectedValues.secondSelectedProvider"
                                            search-enable="false"

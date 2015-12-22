@@ -2,7 +2,7 @@
 
     <div class="row header_row">
         <div class="col-md-12">
-            <h1 class="page-header">Архів повірок</h1>
+            <h1 class="page-header" translate="ARCHIVE"></h1>
         </div>
     </div>
 
@@ -24,7 +24,7 @@
             <div class="panel panel-default">
 
                 <div class="panel-heading">
-                    <span> Останні дані</span>
+                    <span> {{'RECENT_DATA' | translate }} </span>
                     <span class="pull-right">{{'VERIFS_FOUND' | translate }}: {{resultsCount}}</span>
                 </div>
 
@@ -122,9 +122,9 @@
                                             ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
                                             ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
                                             <a ng-switch-when="prev" ng-click="params.page(page.number)" href="">&laquo;
-                                                Previous</a>
+                                                {{'PREVIOUS' | translate }}</a>
                                             <a ng-switch-when="next" ng-click="params.page(page.number)"
-                                               href="">Next &raquo;</a>
+                                               href="">{{'NEXT' | translate }} &raquo;</a>
                                         </li>
                                         <li>
                                             <div class="btn-group">

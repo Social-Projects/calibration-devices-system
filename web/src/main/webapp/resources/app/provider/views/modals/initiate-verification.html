@@ -444,7 +444,7 @@
                                 <div class="col-md-8 form-group">
                                     <ui-select class="form-control" type="text" theme="select2"
                                                ng-model="selectedData.selectedCalibrator"
-                                               name="calibrator" id="calibrator">
+                                               name="calibrator" id="calibrator" required>
                                         <ui-select-match placeholder="{{'CALIBRATOR' | translate}}" allow-clear="true">
                                             {{$select.selected.designation}}
                                         </ui-select-match>
