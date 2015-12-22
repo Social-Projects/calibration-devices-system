@@ -63,7 +63,6 @@
                         </p>
                     </div>
                 </div>
-
                 <div class="form-group" show-errors>
                     <label for="middleName" class="col-md-2 control-label">
                         {{'MIDDLE_NAME' | translate}} </label>
@@ -94,9 +93,10 @@
 
                     <div class="col-md-8">
                         <input id="email" name="email" type="email" class="form-control"
-                               ng-model="formData.email" placeholder="example@gmail.com"
-                               ng-pattern="EMAIL_REGEX" required> <span
-                            class="form-control-feedback glyphicon  form-horizontal glyphicon glyphicon-ok-sign"></span>
+                               ng-model="formData.email1" placeholder="example@gmail.com"
+                               ng-pattern="EMAIL_REGEX" required>
+                        <span class="form-control-feedback glyphicon form-horizontal glyphicon glyphicon-ok-sign">
+                        </span>
 
                         <!--<p class="help-block" ng-if="clientForm.email.$error.email">
                             <span class="glyphicon glyphicon-exclamation-sign"></span>
@@ -116,36 +116,31 @@
                 </div>
                 <div class="form-group" show-errors>
                     <label for="phoneNumber" class="col-md-2 control-label">
-                        {{'PHONE_NUMBER' | translate}} </label>
+                        {{'PHONE_NUMBER' | translate}}
+                    </label>
 
                     <div class="col-md-8">
-                        <div>
-                            <div class="input-group">
-                                <span class="input-group-addon">+380</span>
-                                <input id="phoneNumber" name="phoneNumber" type="tel"
-                                       class="form-control col-md-8 " ng-model="formData.phone"
-                                       placeholder="XXXXXXXXX" ng-pattern="PHONE_REGEX" required>
-
-                                <div class="input-group-addon btn btn-default btn-circle"
-                                     ng-click="checkboxModel = !checkboxModel">
-                                    <i class="glyphicon glyphicon-plus"></i>
-                                </div>
-
+                        <div class="input-group">
+                            <span class="input-group-addon">+380</span>
+                            <input id="phoneNumber" name="phoneNumber" type="tel"
+                                   class="form-control col-md-8 " ng-model="formData.phone"
+                                   placeholder="XXXXXXXXX" ng-pattern="PHONE_REGEX" required>
+                            <div class="input-group-addon btn btn-default btn-circle"
+                                 ng-click="checkboxModel = !checkboxModel">
+                                <i class="glyphicon glyphicon-plus"></i>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <p class="help-block col-md-8 col-md-offset-2"
-                           ng-if="clientForm.phoneNumber.$error.pattern">
-                            <span class="glyphicon glyphicon-exclamation-sign"></span>
-                            {{'PHONE_NUMBER_ERROR' | translate}}</p>
 
-                        <p class="help-block col-md-8 col-md-offset-2"
-                           ng-if="clientForm.email.$error.required">
-                            <span class="glyphicon glyphicon-exclamation-sign"></span>
-                            {{'REQUIRED' | translate}}
-                        </p>
                     </div>
+                    <p class="help-block col-md-8 col-md-offset-2"
+                       ng-if="clientForm.phoneNumber.$error.pattern">
+                        <span class="glyphicon glyphicon-exclamation-sign"></span>
+                        {{'PHONE_NUMBER_ERROR' | translate}}</p>
+                    <p class="help-block col-md-8 col-md-offset-2"
+                       ng-if="clientForm.phoneNumber.$error.required">
+                        <span class="glyphicon glyphicon-exclamation-sign"></span>
+                        {{'REQUIRED' | translate}}
+                    </p>
                 </div>
                 <div class="form-group" show-errors ng-show="checkboxModel">
                     <label for="phoneNumberSecond" class="col-md-2 control-label">
@@ -353,7 +348,6 @@
                         </p>
                     </div>
                 </div>
-
                 <div class="form-group" show-errors ng-hide="defaultValue.privateHouse">
                     <label for="flat" class="col-md-2 control-label">{{'FLAT' | translate}}</label>
 

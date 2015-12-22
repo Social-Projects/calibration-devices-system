@@ -38,12 +38,10 @@ public class StatisticController {
         return new CountDTO(statisticService.countCounterTypes());
     }
 
-
     @RequestMapping(value = "verifications", method = RequestMethod.GET)
     public CountDTO countVerifications() {
         return new CountDTO(statisticService.countVerifications());
     }
-
 
     @RequestMapping(value = "employee", method = RequestMethod.GET)
     public UsersPageItem getEmployee(@AuthenticationPrincipal SecurityUserDetailsService.CustomUserDetails user) {
