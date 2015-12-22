@@ -10,9 +10,9 @@
                 <tr>
                 <td>
                    <h5 class="incorrectLoginPass"  ng-class="{'incorStyle': incorrectStyle==true}">{{'INCORRECT_LOGIN' | translate}}</h5>
-                </td>                           
+                </td>
                 <td>
-                   <input name="username" ng-model="loginForm.username" ng-class="{'incorStylePlaceholder': incorrectStylePlaceholder==true}"  type="text" class="form-control"
+                   <input type="text" name="username" ng-model="loginForm.username" ng-class="{'incorStylePlaceholder': incorrectStylePlaceholder==true}"  type="text" class="form-control"
                            placeholder="{{ 'USERNAME' | translate }}" required>
                  </td>
                  </tr>
