@@ -22,9 +22,12 @@
     padding-right: 0px;
     margin: 0px;
     padding-left: 15px;
-
-
 }
+
+.select2-container .select2-choice > .select2-chosen {
+    margin-right: 0 !important;
+}
+
 #counterNumber {
     padding-left: 0px;
     padding-right: 0px;

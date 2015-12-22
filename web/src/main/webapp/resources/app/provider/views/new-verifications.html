@@ -119,7 +119,7 @@
                                                ng-click="openMailModal(verification.id)">
                                             </i>
 
-                                            <a popover="Download doc in 'docx' format"
+                                            <a popover="{{'DOWNLOAD_FILE_IN_DOC' | translate}}"
                                                popover-trigger="mouseenter"
                                                href="{{'/doc/info/' + verification.id + '/docx'}}">
                                                 <i class="fa fa-file-word-o"></i>
@@ -136,10 +136,11 @@
                                             ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
                                             ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
                                             <a ng-switch-when="prev" ng-click="params.page(page.number)" href="">&laquo;
-                                                {{'PREVIOUS' | translate }}</a>
+                                                {{'PREVIOUS' | translate}}</a>
                                             <a ng-switch-when="next" ng-click="params.page(page.number)"
-                                               href="">{{'NEXT' | translate }} &raquo;</a>
+                                               href="">{{'NEXT' | translate}} &raquo;</a>
                                         </li>
+                                        <span>Кількість записів на сторінці: </span>
                                         <li>
                                             <div class="btn-group">
                                                 <button type="button" ng-class="{'active':params.count() == 5}"

@@ -275,7 +275,7 @@
                         {{'STREET' | translate}} </label>
 
                     <div class="col-md-8">
-                        <div class="pull-left col-lg-3" id="typeStreet">
+                        <div class="pull-left col-xs-3" id="typeStreet">
                             <ui-select class="form-control" type="text" theme="select2"
                                        ng-model="selectedValues.selectedStreetType"
                                        ng-disabled="!selectedValues.selectedIndex"
@@ -291,7 +291,7 @@
 
 
                         </div>
-                        <div class="col-md-9" id="streetBox"
+                        <div class="col-xs-9" id="streetBox"
                              ng-class="{'has-success' : selectedValues.selectedStreet  && selectedValues.selectedIndex,
                                         'has-error' : !selectedValues.selectedStreet &&  clientForm.street.$dirty && selectedValues.selectedIndex}">
                             <input name="street" class="form-control"
@@ -376,7 +376,7 @@
                         {{'COUNTER_CATEGORY' | translate}} </label>
 
                     <div class="col-md-8 ">
-                        <div class="pull-left col-md-2" id="counterNumber">
+                        <div class="pull-left col-xs-2" id="counterNumber">
                             <ui-select class="form-control" type="text" theme="select2"
                                        ng-model="selectedValues.firstDeviceCount"
                                        search-enabled="false"
@@ -390,7 +390,7 @@
                                 </ui-select-choices>
                             </ui-select>
                         </div>
-                        <div class="col-md-3" id="deviceBox">
+                        <div class="col-xs-3" id="deviceBox">
                             <ui-select class="form-control" type="text" theme="select2"
                                        ng-model="selectedValues.firstSelectedDeviceType"
                                        search-enabled="false"
@@ -407,7 +407,7 @@
                             </ui-select>
 
                         </div>
-                        <div class="col-md-7 input-group pull-right" id="deviceBox">
+                        <div class="col-xs-7 input-group pull-right" id="deviceBox">
                             <ui-select class="form-control" type="text" theme="select2"
                                        ng-model="selectedValues.firstSelectedProvider"
                                        search-enable="false"
@@ -457,7 +457,7 @@
                             {{'COUNTER_CATEGORY' | translate}} </label>
 
                         <div class="col-md-8 ">
-                            <div class="pull-left col-md-2" id="counterNumber">
+                            <div class="pull-left col-xs-2" id="counterNumber">
                                 <ui-select class="form-control" type="text" theme="select2"
                                            ng-required="isSecondDevice"
                                            ng-model="selectedValues.secondDeviceCount"
@@ -472,7 +472,7 @@
                                     </ui-select-choices>
                                 </ui-select>
                             </div>
-                            <div class="col-md-3" id="deviceBox">
+                            <div class="col-xs-3" id="deviceBox">
                                 <ui-select class="form-control" type="text" theme="select2"
                                            ng-model="selectedValues.secondSelectedDeviceType"
                                            search-enabled="false"
@@ -495,7 +495,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-7 input-group pull-right" id="deviceBox">
+                            <div class="col-xs-7 input-group pull-right" id="deviceBox">
                                 <ui-select class="form-control" type="text" theme="select2"
                                            ng-model="selectedValues.secondSelectedProvider"
                                            search-enable="false"
