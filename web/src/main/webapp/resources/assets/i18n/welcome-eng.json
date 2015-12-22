@@ -32,6 +32,7 @@
   "SELECT_LOCALITY": "Select locality",
   "SELECT_MAIL_INDEX": "Select mail index",
   "TYPE_OF_STREET": "Type of street",
+  "COUNT_OF_RECORDS" : "Count of records on page",
   "NUMBER_OF_COUNTERS": "Amount",
   "CATEGORY_OF_COUNTER": "Type of counter",
   "SELECT_PROVIDER": "Select provider",

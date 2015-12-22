@@ -39,6 +39,7 @@
   "CATEGORY_OF_COUNTER": "Тип лічильника",
   "SELECT_PROVIDER": "Оберіть провайдера",
   "REQUIRED_ACORDION": "Не було вибрано ні одного району обслуговування",
+  "COUNT_OF_RECORDS" : "Кількість записів на сторінці",
   "SEARCH_BTN": "\u043f\u043e\u0448\u0443\u043a",
   "APPLICATION_CODE": "\u041a\u043e\u0434 \u0437\u0430\u044f\u0432\u043a\u0438",
   "APPLICATION_STATUS": "\u0421\u0442\u0430\u0442\u0443\u0441 \u0437\u0430\u044f\u0432\u043a\u0438",
