@@ -57,7 +57,7 @@
     "PROVIDER": "Service provider",
     "VERIFICATOR": "Authorized calibration laboratory",
     "PROVIDER_INFO": "Provider is a service that will handle your application. For instance 'Lvivvodokanal'. Start typing and choose one form drop-down list. It will correspond district that you have just selected",
-    "INCORRECT": "Incorrect value input",
+    "INCORRECT": "Login or password are incorrect. Please, try again!",
     "INCORRECT_LOGIN": "Login:",
     "INCORRECT_PASSWORD": "Password:",
     "ALPHABETIC_INFO": "This field can contain only proper name, so the name should begin with a capital letter.If proper name consists of two words , both words should begin with a capital letter and should contain dash between them.",
