@@ -28,6 +28,10 @@
     margin-right: 0 !important;
 }
 
+#firstDeviceComment, #secondDeviceComment {
+    width: 100% !important;
+}
+
 #counterNumber {
     padding-left: 0px;
     padding-right: 0px;

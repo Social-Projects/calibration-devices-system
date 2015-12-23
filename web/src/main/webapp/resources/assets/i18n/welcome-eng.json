@@ -111,7 +111,6 @@
     "GENERAL_INFORMATION": "General information",
     "SUBORDINATION": "Department subordination",
     "ADDITIONAL_INFORMATION": "Additional information",
-    "RECENT_DATA":"Recent data",
     "LOGIN_TWO": "Login",
     "PASSWORD_TWO": "Password",
     "REPEAT_PASSWORD": "Repeat password",
@@ -213,6 +212,7 @@
     "CONSUMPTION_STATUS": "Consumption status",
     "UPLOAD_BBI_FILE": "Upload BBI",
     "UPLOAD_ARCHIVE": "Upload archive",
+    "ARCHIVE": "Archive",
     "FILE_NAME": "File name",
     "DATE_TIME": "Date",
     "TEMPERATURE": "Temperature",
@@ -228,6 +228,7 @@
     "DOWNLOAD_DOC": "Download doc in 'docx' format",
     "DOWNLOAD_TEST_DOC": "Download test data in 'docx' format",
     "DOWNLOAD_TEST_PDF": "Download test data in 'pdf' format",
+    "DOWNLOAD_FILE_IN_DOC" : "Download file in 'docx' format",
     "PRINT": "Print",
     "PLEASE_DESCRIBE_REASON": "Please explain why verification is being rejected",
     "REJECT": "Reject",
@@ -328,7 +329,7 @@
     "CHOOSE_THE_DATE_TO_SEARCH_INFORMATION": "Choose the date to search information",
     "SHOW": "Show",
     "DROP_SEARCH": "Drop search",
-    "ON_BALANCE": "On balance",
+    "ON_BALANCE": "On balance ",
     "FROM": "from",
     "AVAILABLE_USERS": "available users",
     "SENT": "Sent",
@@ -492,7 +493,6 @@
     "NEW_VERIFICATIONS": "New verifications",
     "NEW_VERIFICATIONS_CALIBRATOR": "New verifications (calibrator)",
     "VERIFICATIONS_ARCHIVE": "Verifications archive",
-    "ARCHIVE":"Archive",
     "CALIBRATOR_HANDBOOK": "Handbook of measuring devices (calibrator)",
     "TASK_PLANNING": "Task planning",
     "TASKS_FOR_STATIONS": "Tasks for stations",
@@ -592,7 +592,6 @@
     "DOWNLOAD_UNFITNESS_CERTIFICATE_IN_DOCX" : "Download Unfitness certificate in 'docx'",
     "DOWNLOAD_VERIFICATION_CERTIFICATE_IN_PDF" : "Download Verification certificate in 'pdf'",
     "DOWNLOAD_UNFITNESS_CERTIFICATE_IN_PDF" : "Download Unfitness certificate in 'docx'",
-    "DOWNLOAD_FILE_IN_DOC" : "Download file in 'docx' format",
     "EDIT_DOCUMENT" : "Edit document",
     "NO_VERIFICATIONS_CHECKED" : "Choose verifications for task creation",
     "TASK_FOR_STATION_CREATED" : "Task for calibration module was successfully created",
@@ -640,7 +639,6 @@
     "SELECT_PARAMETER":"Please, select parameter",
     "INPUT_VALUE":"Please, input value",
     "SELECT_VALUE":"Please, select value",
-    "DELETE_REASON_CONFIRM" : "DELETE REASON?",
-    "SUCCESSFUL_EDITED": "Edited successfully"
+    "DELETE_REASON_CONFIRM" : "DELETE REASON?"
 
 }

@@ -115,7 +115,7 @@
                                 <div ui-sref="profile-info" class="link item middle center aligned">
                                     <p translate="PROFILE"></p>
                                 </div>
-                                <div class="link item middle center aligned">
+                                <div ui-sref="settings-provider" class="link item middle center aligned">
                                     <p translate="SETTINGS"></p>
                                 </div>
                                 <div ng-click="logout()" class="link item middle center aligned">
