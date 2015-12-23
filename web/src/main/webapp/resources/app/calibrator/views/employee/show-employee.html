@@ -26,62 +26,63 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-sm-12">
-                            <button ng-click="clearAll()" ng-show="isFilter()"
-                                    class="btn btn-warning pull-right is-filter" translate="DROP_SEARCH">
-                            </button>
+                            <div class="table-responsive">
+                                <button ng-click="clearAll()" ng-show="isFilter()"
+                                        class="btn btn-warning pull-right is-filter" translate="DROP_SEARCH">
+                                </button>
 
+                                <table show-filter="true" ng-table="tableParams" template-pagination="employee/pager"
+                                       class="table table-bordered table-hover users_table">
 
-                            <table show-filter="true" ng-table="tableParams" template-pagination="employee/pager"
-                                   class="table table-bordered table-hover users_table">
+                                    <tbody>
+                                    <tr ng-repeat="user in $data" ng-class="{incorrect : !user.isAvaliable}">
+                                        <td data-title="'USERNAME'|translate " sortable="'username'"
+                                            filter="{ 'username': 'text' }">{{
+                                            user.username }}
+                                        </td>
 
-                                <tbody>
-                                <tr ng-repeat="user in $data" ng-class="{incorrect : !user.isAvaliable}">
-                                    <td data-title="'USERNAME'|translate " sortable="'username'"
-                                        filter="{ 'username': 'text' }">{{
-                                        user.username }}
-                                    </td>
+                                        <td data-title="'ROLE' | translate"
+                                            sortable="'userRoles'"
+                                            filter="{ 'role': 'userType' }">
+                                            {{ user.role }}
+                                        </td>
 
-                                    <td data-title="'ROLE' | translate"
-                                        sortable="'userRoles'"
-                                        filter="{ 'role': 'userType' }">
-                                        {{ user.role }}
-                                    </td>
-
-                                    <td data-title="'FIRST_NAME'|translate" sortable="'firstName'"
-                                        filter="{ 'firstName': 'text' }">{{
-                                        user.firstName }}
-                                    </td>
-                                    <td data-title="'LAST_NAME'|translate" sortable="'lastName'"
-                                        filter="{ 'lastName': 'text' }">{{
-                                        user.lastName }}
-                                    </td>
-                                    <td data-title="'ORGANIZATIONS'|translate" sortable="'organization'"
-                                        filter="{ 'organization': 'text' }">{{
-                                        user.organization }}
-                                    </td>
-                                    <td data-title="'PHONE_NUMBER'|translate" sortable="'phone'"
-                                        filter="{ 'phone': 'text' }">{{
-                                        user.phone }}
-                                    </td>
-                                    <td data-title="'SECOND_PHONE'|translate" sortable="'secondPhone'"
+                                        <td data-title="'FIRST_NAME'|translate" sortable="'firstName'"
+                                            filter="{ 'firstName': 'text' }">{{
+                                            user.firstName }}
+                                        </td>
+                                        <td data-title="'LAST_NAME'|translate" sortable="'lastName'"
+                                            filter="{ 'lastName': 'text' }">{{
+                                            user.lastName }}
+                                        </td>
+                                        <td data-title="'ORGANIZATIONS'|translate" sortable="'organization'"
+                                            filter="{ 'organization': 'text' }">{{
+                                            user.organization }}
+                                        </td>
+                                        <td data-title="'PHONE_NUMBER'|translate" sortable="'phone'"
+                                            filter="{ 'phone': 'text' }">+380{{
+                                            user.phone }}
+                                        </td>
+                                        <td data-title="'SECOND_PHONE'|translate" sortable="'secondPhone'"
                                             filter="{ 'secondPhone': 'text' }">{{
                                             user.secondPhone }}
                                         </td>
-                                    <td data-title="'EMPLOYEE_CAPACITY'|translate">
-                                        <a ng-if="user.calibratorTasks" ng-click="showCapacity(user.username)"
-                                           class="cursor-pointer">
-                                            {{user.calibratorTasks }}</a>
-                                        <span ng-if="!user.calibratorTasks"> {{ user.calibratorTasks}}    </span>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-primary"
-                                                ng-click="openEditEmployeeModal(user.username)">
-                                            <span class="glyphicon glyphicon-pencil"></span>
-                                        </button>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
+                                        <td data-title="'EMPLOYEE_CAPACITY'|translate">
+                                            <a ng-if="user.calibratorTasks" ng-click="showCapacity(user.username)"
+                                               class="cursor-pointer">
+                                                {{user.calibratorTasks }}</a>
+                                            <span ng-if="!user.calibratorTasks"> {{ user.calibratorTasks}}    </span>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary"
+                                                    ng-click="openEditEmployeeModal(user.username)">
+                                                <span class="glyphicon glyphicon-pencil"></span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                     <script type="text/ng-template" id="employee/pager">
@@ -91,9 +92,9 @@
                                     ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
                                     ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
                                     <a ng-switch-when="prev" ng-click="params.page(page.number)" href="">&laquo;
-                                        Previous</a>
+                                        {{'PREVIOUS' | translate}}</a>
                                     <a ng-switch-when="next" ng-click="params.page(page.number)"
-                                       href="">Next &raquo;</a>
+                                       href="">{{'NEXT' | translate}} &raquo;</a>
                                 </li>
                                 <li>
                                     <div class="btn-groups">

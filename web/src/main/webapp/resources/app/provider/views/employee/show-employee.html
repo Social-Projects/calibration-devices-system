@@ -73,7 +73,7 @@
                                             user.lastName }}
                                         </td>
                                         <td data-title="'PHONE_NUMBER'|translate" sortable="'phone'"
-                                            filter="{ 'phone': 'text' }">{{
+                                            filter="{ 'phone': 'text' }">+380{{
                                             user.phone }}
                                         </td>
                                         <td data-title="'SECOND_PHONE'|translate" sortable="'secondPhone'"
@@ -105,9 +105,9 @@
                                     ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}"
                                     ng-show="page.type == 'prev' || page.type == 'next'" ng-switch="page.type">
                                     <a ng-switch-when="prev" ng-click="params.page(page.number)" href="">&laquo;
-                                        Previous</a>
+                                        {{'PREVIOUS' | translate}}</a>
                                     <a ng-switch-when="next" ng-click="params.page(page.number)"
-                                       href="">Next &raquo;</a>
+                                       href="">{{'NEXT' | translate}} &raquo;</a>
                                 </li>
                                 <span>{{'COUNT_OF_RECORDS' | translate}} &nbsp;</span>
                                 <li>
