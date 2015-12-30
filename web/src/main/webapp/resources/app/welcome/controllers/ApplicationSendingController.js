@@ -13,20 +13,17 @@ angular
             $scope.responseSuccess = false;
             $scope.showSendingAlert = false;
             $scope.values = [1, 2, 3, 4, 5, 6];
-
             $scope.regions = [];
             $scope.devices = [];
             $scope.streetsTypes = [];
             $scope.providers = [];
             $scope.firstDeviceProviders = [];
             $scope.secondDeviceProviders = [];
-
             $scope.selectedValues = {};
             $scope.selectedValues.selectedStreetType = undefined;
             $scope.selectedValues.secondDeviceCount = null;
             $scope.selectedValues.firstSelectedProvider = undefined;
             $scope.selectedValues.secondSelectedProvider = null;
-
             $scope.firstAplicationCodes = [];
             $scope.secondAplicationCodes = [];
             $scope.firstDeviceComment = "";
@@ -51,10 +48,10 @@ angular
             $scope.BUILDING_REGEX = /^[1-9][0-9]{0,3}([A-Za-z]|[\u0410-\u042f\u0407\u0406\u0430-\u044f\u0456\u0457])?$/;
             $scope.PHONE_REGEX = /^[1-9]\d{8}$/;
             $scope.PHONE_REGEX_SECOND = /^[1-9]\d{8}$/;
-            $scope.EMAIL_REGEX = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
+            $scope.EMAIL_REGEX = /^[-a-z0-9~!$%^&*_=+}{'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
 
             /**
-             * Selected values from select will be temprorily saved here.
+             * Selected values from select will be temporary saved here.
              * We should create model object to avoid issues with scope inheritance
              * https://github.com/angular/angular.js/wiki/Understanding-Scopes
              */
@@ -127,14 +124,12 @@ angular
                                                                 $scope.selectedValues.selectedIndex = $scope.indexes[0];
                                                                 $scope.blockSearchFunctions = false;
                                                             });
-
                                                     });
                                             });
                                     });
                             });
                     });
                 });
-
             }
 
             /**
@@ -224,7 +219,6 @@ angular
                 }
             };
 
-
             /**
              * Receives all possible streets.
              * On-select handler in locality input form element
@@ -302,14 +296,24 @@ angular
                 }
             );
 
-            $scope.selectDevice = function() {
 
+            //scope.selectDevice = function(deviceType) {
+            // angular.forEach($scope.devices, function(value) {
+            // if(value.deviceType === deviceType) {
+            // return value}})
+            // }
+
+
+            //$scope.selectedValues.firstSelectedDevice = $scope.selectDevice($scope.selectedValues.firstSelectedDeviceType);
+            $scope.selectDevice = function() {
                 angular.forEach($scope.devices, function(value){
                     if(value.deviceType === $scope.selectedValues.firstSelectedDeviceType){
                         $scope.selectedValues.firstSelectedDevice = value;
                     }
+                    if(value.deviceType === $scope.selectedValues.secondSelectedDeviceType){
+                        $scope.selectedValues.secondSelectedDevice = value;
+                    }
                 });
-
             };
 
             /**
@@ -329,8 +333,6 @@ angular
                 //if (($scope.selectedValues.secondDeviceCount !== undefined)) {
                 //    $scope.clientForm.secondDeviceCount.$invalid = false;
                 //}
-
-
 
                 /**
                  * Check street selection group
@@ -355,15 +357,12 @@ angular
              */
             $scope.sendApplicationData = function () {
                 $scope.codes = [];
-
                 $scope.selectDevice();
                 $scope.deviceErrorCheck();
-
                 $scope.$broadcast('show-errors-check-validity');
                 if ($scope.clientForm.$valid) {
                     $scope.isShownForm = false;
                     $scope.appProgress = true;
-
                     $scope.formData.region = $scope.selectedValues.selectedRegion.designation;
                     $scope.formData.district = $scope.selectedValues.selectedDistrict.designation;
                     $scope.formData.locality = $scope.selectedValues.selectedLocality.designation;
@@ -374,10 +373,9 @@ angular
                         $scope.formData.deviceId = $scope.selectedValues.firstSelectedDevice.id;
                         $scope.formData.providerId = $scope.selectedValues.firstSelectedProvider.id;
                         $scope.formData.comment = $scope.firstDeviceComment;
-
-                        $scope.firstAplicationCodes.push(dataSendingService.sendApplication($scope.formData))
+                        $scope.firstAplicationCodes.push(dataSendingService.sendApplication($scope.formData));
                     }
-                    // todo sending second device verification  bug
+                    // todo sending second device verification bug - fixed (29.12.2015)
                     $q.all($scope.firstAplicationCodes).then(function (values) {
                         for (var i = 0; i < ($scope.selectedValues.firstDeviceCount); i++) {
                             $scope.codes.push(values[i].data);
@@ -386,9 +384,8 @@ angular
                             $scope.formData.deviceId = $scope.selectedValues.secondSelectedDevice.id;
                             $scope.formData.providerId = $scope.selectedValues.secondSelectedProvider.id;
                             $scope.formData.comment = $scope.secondDeviceComment;
-                            $scope.secondAplicationCodes.push(dataSendingService.sendApplication($scope.formData))
+                            $scope.secondAplicationCodes.push(dataSendingService.sendApplication($scope.formData));
                         }
-
                         $q.all($scope.secondAplicationCodes).then(function (values) {
                             for (var i = 0; i < $scope.selectedValues.secondDeviceCount; i++) {
                                 $scope.codes.push(values[i].data);
@@ -451,20 +448,16 @@ angular
              * Resets form
              */
             $scope.resetApplicationForm = function () {
-
                 $scope.$broadcast('show-errors-reset');
-
                 $scope.clientForm.$setPristine();
                 $scope.clientForm.$setUntouched();
-
                 $scope.formData = null;
-
                 $scope.selectedValues.firstSelectedDevice = undefined;
                 $scope.selectedValues.secondSelectedDevice = undefined;
-
+                $scope.selectedValues.firstSelectedDeviceType = undefined;
+                $scope.selectedValues.secondSelectedDeviceType = undefined;
                 $scope.selectedValues.firstDeviceCount = undefined;
                 $scope.selectedValues.secondDeviceCount = undefined;
-
                 $scope.selectedValues.selectedRegion = undefined;
                 $scope.selectedValues.selectedDistrict = undefined;
                 $scope.selectedValues.selectedLocality = undefined;
@@ -477,7 +470,6 @@ angular
                 $scope.secondDeviceProviders = [];
                 $scope.selectedValues.firstSelectedProvider = undefined;
                 $scope.selectedValues.secondSelectedProvider = undefined;
-
                 $log.debug("$scope.resetApplicationForm");
             };
 
@@ -501,7 +493,6 @@ angular
                 $scope.selectedValues.selectedStreetType = undefined;
                 $scope.selectedValues.selectedStreet = "";
             });
-
         }
     ]
 );

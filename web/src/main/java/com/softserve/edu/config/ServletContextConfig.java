@@ -1,7 +1,5 @@
 package com.softserve.edu.config;
 
-import com.softserve.edu.service.tool.MailService;
-import com.softserve.edu.service.tool.impl.MailServiceImpl;
 import com.softserve.edu.service.utils.ProcessTimeChecker;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

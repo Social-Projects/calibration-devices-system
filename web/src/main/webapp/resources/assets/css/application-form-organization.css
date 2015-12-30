@@ -55,7 +55,9 @@
     background: -moz-linear-gradient(left, rgba(242, 246, 248, 1) 0%,
     rgba(216, 225, 231, 1) 0%, rgba(213, 220, 224, 1) 51%,
     rgba(224, 239, 249, 1) 100%);
-    background: -webkit-gradient(left top, right top, color-stop(0%, rgba(242, 246, 248, 1)), color-stop(0%, rgba(216, 225, 231, 1)),
+    background: -webkit-gradient(left top, right top,
+    color-stop(0%, rgba(242, 246, 248, 1)),
+    color-stop(0%, rgba(216, 225, 231, 1)),
     color-stop(51%, rgba(213, 220, 224, 1)),
     color-stop(100%, rgba(224, 239, 249, 1)));
     background: -webkit-linear-gradient(left, rgba(242, 246, 248, 1) 0%,
